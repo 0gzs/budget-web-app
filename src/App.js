@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import Accounts from "./components/accounts.component";
+import Categories from "./components/categories.component";
+import Transactions from "./components/transactions.component"; 
+import ErrorBoundary from "./components/error-boundary.component";
 
-function App() {
+const App = ()  => {
+  const userId = "61df6b800b7ab5b94fbb4497";
+
+  useEffect(() => {
+    localStorage.setItem("userId", userId);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="w-full flex flex-col sm:flex-row flex-1">
+        <ErrorBoundary>
+          <div className="overflow-hidden w-full min-w-[300px] md:w-1/3 py-8 px-4 border">
+            <h5 className="text-left text-xl font-light text-gray-700">Accounts</h5>
+            <Accounts />
+          </div>
+          
+          <div className="relative w-full md:w-2/3 py-8 flex flex-col flex-1 overflow-auto">
+            <Categories />
+
+            <Transactions />
+          </div>
+        </ErrorBoundary>
     </div>
   );
 }
