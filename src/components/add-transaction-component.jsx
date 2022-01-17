@@ -68,10 +68,10 @@ const AddTransaction = ({ close, handleAddTransaction }) => {
 
     return (
         <div className="w-full flex flex-col">
-            <div className="w-full flex items-center space-x-2">
+            <div className="w-full px-2 my-2 flex items-center space-x-2">
                 <input 
                     type="text"
-                    className="appearance-none w-2/4 border rounded-md focus:outline-none placeholder-italic p-1 w-2/4"
+                    className="appearance-none w-2/4 border rounded-md focus:outline-none placeholder-italic p-2 w-4/5"
                     placeholder="Description" 
                     name="description"
                     onChange={e => handleInputChange(e, "description")}
@@ -81,7 +81,7 @@ const AddTransaction = ({ close, handleAddTransaction }) => {
                         <i className="bi bi-dash font-bold"></i>
                     </button>
                 </div>
-                <div className={`flex-1 border-b border-gray-300 flex items-center ${transaction.type === 0 ? 'text-red-600' : 'text-green-600'}`}>
+                <div className={`border-b border-gray-300 flex items-center w-[80px] ${transaction.type === 0 ? 'text-red-600' : 'text-green-600'}`}>
                     <p className="mr-[-8px]">$</p>
                     <input 
                         id="amountInput" 
