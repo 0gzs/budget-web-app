@@ -47,7 +47,7 @@ const Transactions = () => {
 
     const deleteOne = id => {
         TransactionService.delete(id)
-            .then(res => console.log(res.data))
+            .then(() => setTransactions([...transactions.filter(transaction => transaction._id !== id)]))
             .catch(err => console.log(err));
     };  
 
