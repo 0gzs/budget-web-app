@@ -9,6 +9,10 @@ const Dashboard = () => {
     return (
         <div>
             <h1>Modal Expirement</h1>
+            <button className="bg-violet-500 px-3 px-4" onClick={showModal}>
+                Open
+            </button>
+            
         </div>
     );
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Modal = ({ handleClose, show, children }) => {
-    const showHideClassName = show ? "modal display-block" 
+    const showHideClassName = show ? "modal display" : ""; 
     return (
         <div>
             
