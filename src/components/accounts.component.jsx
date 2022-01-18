@@ -12,9 +12,11 @@ const Accounts = () => {
         return parsed || null;
     });
 
-    useEffect(() => {
-        if (!accounts) getAll();
-    }, [accounts]);
+    useEffect(() => !accounts && getAll());
+
+    // useEffect(() => {
+    //     localStorage.setItem("accounts", JSON.stringify(accounts));
+    // }, [accounts])
 
     const handleClose = () => setShow(false);
     const handleOpen = () => setShow(true);

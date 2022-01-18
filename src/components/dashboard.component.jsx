@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Dashboard = () => {
+    const [show, setShow] = useState(false);
+
+    const showModal = setShow(true);
+    const hideModal = setShow(false);
+
     return (
-        <div className="container">
-            <h1>Dash</h1>
+        <div>
+            <h1>Modal Expirement</h1>
         </div>
     );
 };

@@ -3,7 +3,7 @@ import CategoryService from "../services/category.service";
 import TransactionService from "../services/transactions.service";
 import dollarUS from "../utilities/currency-formatter";
 import dateFormatter from '../utilities/date-formatter';
-import AddTransaction from "./add-transaction-component";
+import AddTransaction from "./add-transaction.component";
 
 const Transactions = () => {
     const [transactions, setTransactions] = useState(() => {
