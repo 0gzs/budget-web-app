@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";  
 import TransactionService from "../services/transactions.service";
+import dollarUS from "../utilities/currency-formatter";
 
 const AddTransaction = ({ close, handleAddTransaction }) => {
     const [initialState, setInitialState] = useState({
@@ -14,8 +15,12 @@ const AddTransaction = ({ close, handleAddTransaction }) => {
     const [categories, setCategories] = useState();
     const [accounts, setAccounts] = useState();
 
-    useEffect(() => setCategories(JSON.parse(localStorage.getItem("categories"))), []);
-    useEffect(() => setAccounts(JSON.parse(localStorage.getItem("accounts"))), []);
+    useEffect(() => {
+        setCategories(JSON.parse(localStorage.getItem("categories")))
+    }, []);
+    useEffect(() => {
+        setAccounts(JSON.parse(localStorage.getItem("accounts")))
+    }, []);
 
     const handleType = () => {
         if (transaction.type === 0) setTransaction({ ...transaction, type: 1 })
@@ -51,7 +56,7 @@ const AddTransaction = ({ close, handleAddTransaction }) => {
         const data = {
             description: transaction.description,
             date: transaction.date,
-            amount: parseInt(parseInt(transaction.amount).toFixed(2)),
+            amount: dollarUS.format(transaction.amount),
             type: transaction.type,
             category: transaction.category,
             account: transaction.account
@@ -68,6 +73,7 @@ const AddTransaction = ({ close, handleAddTransaction }) => {
 
     return (
         <div className="w-full flex flex-col">
+            <p>{dollarUS.format(transaction.amount)}</p>
             <div className="w-full px-2 my-2 flex items-center space-x-2">
                 <input 
                     type="text"
