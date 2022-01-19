@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react"; 
 import dollarUS from "../utilities/currency-formatter";
 import AccountService from "../services/account.service"; 
-import AddAccount from "./add-account.component";
 
-const Accounts = () => {
-    const [show, setShow] = useState(false);
+const Accounts = ({ handleForm }) => {
     const [accounts, setAccounts] = useState(() => {
         let storage = localStorage.getItem("accounts");
         let parsed = JSON.parse(storage);
@@ -17,9 +15,6 @@ const Accounts = () => {
     // useEffect(() => {
     //     localStorage.setItem("accounts", JSON.stringify(accounts));
     // }, [accounts])
-
-    const handleClose = () => setShow(false);
-    const handleOpen = () => setShow(true);
 
     const getAll = () => {
         AccountService.getAll()
@@ -44,7 +39,6 @@ const Accounts = () => {
         const accountsState = [...accounts];
         accountsState.push(account);
         setAccounts([...accountsState]);
-        handleClose();
     };
 
     const showEditBtn = () => document.getElementById("edit-btns").style.display = "flex";
@@ -79,11 +73,8 @@ const Accounts = () => {
             {accounts && 
                 (<button 
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
-                    onClick={handleOpen}>Add Account</button>
+                    onClick={() => handleForm("account")}>Add Account</button>
             )}
-
-            {show && <AddAccount handleClose={handleClose} handleAddAccount={handleAddAccount} />   }
-
         </div>
     );
 };
