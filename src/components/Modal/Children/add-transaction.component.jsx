@@ -25,7 +25,7 @@ const AddTransaction = () => {
     useEffect(() => {
         setTypeColor(typeColor === typeClasses.red ? typeClasses.green : typeClasses.red);
         setAmountColor(amountColor === amountClasses.red ? amountClasses.green : amountClasses.red);
-    }, [transaction.type])
+    }, [transaction.type, typeColor, typeClasses.red, typeClasses.green, amountClasses.red, amountClasses.green, amountColor])
 
     return (
         <div>
