@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Accounts from "./accounts.component";
 import Modal from "./modal/modal.component";
+import Accounts from "./accounts.component";
+import Categories from './categories.component';
 
 const Dashboard = () => {
     const [show, setShow] = useState(false);
@@ -15,13 +16,11 @@ const Dashboard = () => {
     };
 
     return (
-        <main className="w-full h-full">
+        <main className="w-full h-full px-16">
             {show && <Modal show={show} handleClose={hideModal} formName={form} />}
 
-            <div className="border">
-                <h5 className="text-left text-xl font-light text-gray-700">Accounts</h5>
-                <Accounts handleForm={handleFormModal} />
-            </div>
+            <Accounts handleForm={handleFormModal} />            
+            <Categories handleForm={handleFormModal} />
         </main>
     );
 };

@@ -1,16 +1,16 @@
 import React from 'react';
-import AddTransaction from './children/add-transaction.component';
 import AddAccount from './children/add-account.component';
+import AddCategory from './children/add-category.component';
 
 const Modal = ({ handleClose, show, formName }) => {
     const showHideClassName = show ? ("fixed overflow-hidden inset-0 bg-gray-700 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center") : "hidden"; 
 
-    const handleChild = () => {
+    const handleChildren = () => {
         switch (formName) {
             case "account":
                 return <AddAccount cancel={handleClose} />
-            case "transaction":
-                return <AddTransaction />
+            case "category":
+                return <AddCategory cancel={handleClose} />
             default:
                 break;
         }
@@ -18,8 +18,8 @@ const Modal = ({ handleClose, show, formName }) => {
 
     return (
         <div className={showHideClassName}>
-            <section className='border rounded-lg bg-white w-[22rem] h-fit p-4'>
-                { handleChild() }
+            <section className='border rounded-lg bg-slate-50 w-[22rem] h-fit p-4'>
+                { handleChildren() }
             </section> 
         </div>
     );

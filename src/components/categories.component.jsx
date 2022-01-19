@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CategoryService from '../services/category.service';
 import dollarUS from "../utilities/currency-formatter";
 
-const Categories = () => {
+const Categories = ({ handleForm }) => {
     const [categories, setCategories] = useState(() => {
         const storage = localStorage.getItem("categories");
         const parsed = JSON.parse(storage);
@@ -24,10 +24,15 @@ const Categories = () => {
     };
 
     return (
-        <div>
-            <div className="w-full flex items-center justify-between pr-4">
+        <div className="border p-4">
+            <div className="flex flex-wrap justify-between">
                 <h5 className="text-left text-xl font-light text-gray-700">Categories</h5>
-                <button className="px-3 py-2 bg-violet-600 hover:bg-violet-700 font-medium text-sm text-white rounded-md">New Category</button>
+                <button 
+                    className="bg-violet-600 py-2 px-3 rounded text-white font-bold hover:bg-violet-700 rounded-md"
+                    onClick={() => handleForm("category")}
+                    >
+                        New Category
+                    </button>
             </div>
             <div className="flex overflow-x-auto space-x-3 my-2 py-2 pl-2 pr-4">
                 {categories && categories.map((category, i) => {

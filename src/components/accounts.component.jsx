@@ -63,18 +63,22 @@ const Accounts = ({ handleForm }) => {
     }
 
     return (
-        <div className="mb-4">            
-            <div className="py-4 max-h-full">
-                {accounts && accounts.map((account, i) => {
-                    return <Account account={account} key={i} />
-                })}
-            </div>
+        <div className="border p-4">
+            <h5 className="text-left text-xl font-light text-gray-700">Accounts</h5>
+            
+            <div>            
+                <div className="py-4 max-h-full">
+                    {accounts && accounts.map((account, i) => {
+                        return <Account account={account} key={i} />
+                    })}
+                </div>
 
-            {accounts && 
-                (<button 
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
-                    onClick={() => handleForm("account")}>Add Account</button>
-            )}
+                {accounts && 
+                    (<button 
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+                        onClick={() => handleForm("account")}>Add Account</button>
+                )}
+            </div>
         </div>
     );
 };
