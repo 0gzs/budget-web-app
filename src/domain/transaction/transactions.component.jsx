@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import CategoryService from "../services/category.service";
-import TransactionService from "../services/transactions.service";
-import dollarUS from "../utilities/currency-formatter";
-import dateFormatter from '../utilities/date-formatter';
+import TransactionService from "../../services/transactions.service";
+import dollarUS from "../../services/currency-formatter";
+import dateFormatter from '../../services/date-formatter';
 import AddTransaction from "./add-transaction.component";
 
 const Transactions = () => {

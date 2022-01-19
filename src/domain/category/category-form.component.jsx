@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import ColorSelector from '../../color-selector.component';
-import IconSelector from '../../icon-selector.component';
+import ColorSelector from '../../components/color-selector.component';
+import IconSelector from '../../components/icon-selector.component';
 
-const AddCategory = ({ cancel }) => {
+const CategoryForm = ({ cancel, close, handleUpdate }) => {
     const [initialState, setInitialState] = useState({
         name: "",
         icon: "",
@@ -58,4 +58,4 @@ const AddCategory = ({ cancel }) => {
     );
 };
 
-export default AddCategory;
+export default CategoryForm;

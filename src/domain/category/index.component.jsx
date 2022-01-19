@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import CategoryService from '../services/category.service';
-import dollarUS from "../utilities/currency-formatter";
+import CategoryService from './services/category.service';
+import dollarUS from "../../services/currency-formatter";
 
 const Categories = ({ handleForm }) => {
     const [categories, setCategories] = useState(() => {

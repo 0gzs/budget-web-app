@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react"; 
-import dollarUS from "../utilities/currency-formatter";
-import AccountService from "../services/account.service"; 
+import React from "react"; 
+import dollarUS from "../../services/currency-formatter";
+import AccountService from "./services/account.service"; 
 
 const Accounts = ({ accounts, handleForm, handleUpdate }) => {
     const showEditBtn = () => document.getElementById("edit-btns").style.display = "flex";

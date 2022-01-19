@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import AccountService from '../../../services/account.service';
+import AccountService from './services/account.service';
 
-const AddAccount = ({ cancel, close, handleUpdate }) => {
+const AccountForm = ({ cancel, close, handleUpdate }) => {
     const [initialState, setInitialState] = useState({
         name: "",
         balance: "",
@@ -65,4 +65,4 @@ const AddAccount = ({ cancel, close, handleUpdate }) => {
     );
 };
 
-export default AddAccount;
+export default AccountForm;

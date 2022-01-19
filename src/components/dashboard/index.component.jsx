@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import Modal from "./modal/modal.component";
-import Accounts from "./accounts.component";
-import Categories from './categories.component';
-import useAccounts from "../hooks/useAccounts.hook";
+import Modal from "../modal/modal.component";
+import Accounts from "../../domain/account/index.component";
+import Categories from '../../domain/category/index.component';
+import useAccounts from "../../hooks/useAccounts.hook";
 
 const Dashboard = () => {
     const { accounts, handleAccountsUpdate } = useAccounts();
