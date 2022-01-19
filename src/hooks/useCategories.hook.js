@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import CategoryService from "../domain/category/services/CategoryService";
+import CategoryService from '../domain/category/services/category.service';
 
 const useCategories = () => {
     const [categories, setCategories] = useState(() => {
@@ -15,20 +15,19 @@ const useCategories = () => {
 
         setLoading(true);
 
-        // CategoryService.getAll()
-        //     .then(res => {
-        //             setCategories([...res.data]);
-        //             setError(null);
-        //             localStorage.setItem("categories", JSON.stringify(res.data));
-        //     })
-        //     .catch(err => {
-        //         if (isMounted) setError(err);
-        //     })
-        //     .finally(() => (isMounted && setLoading(false)))
+        CategoryService.getAll()
+            .then(res => {
+                    setCategories([...res.data]);
+                    setError(null);
+                    localStorage.setItem("categories", JSON.stringify(res.data));
+            })
+            .catch(err => {
+                if (isMounted) setError(err);
+            })
+            .finally(() => (isMounted && setLoading(false)))
 
         return () => (isMounted = false);
     }, [loading]);
-    useEffect(() => { localStorage.setItem("categories", JSON.stringify(categories))}, [categories]);
 
     const handleCategoriesUpdate = (response, action) => {
         let categoriesState = [...categories];

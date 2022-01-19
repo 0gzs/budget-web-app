@@ -7,6 +7,7 @@ const Categories = ({ categories, handleForm, handleUpdate, isLoading }) => {
     const deleteAccount = id => {
         CategoryService.delete(id)
             .then(() => handleUpdate(id, "delete"))
+            .catch(err => console.log(err));
     };
 
     if (isLoading) return "Loading...";
