@@ -4,9 +4,8 @@ import AccountService from '../domain/account/services/account.service';
 const useAccounts = () => {
     const [accounts, setAccounts] = useState(() => {
         let storage = localStorage.getItem("accounts");
-        let parsed = JSON.parse(storage);
 
-        return parsed || null;
+        return JSON.parse(storage) || null;
     });
 
     useEffect(() => !accounts && getAll());
@@ -22,15 +21,14 @@ const useAccounts = () => {
     };
 
     const handleAccountsUpdate = (response, action) => {
+        let accountsState = [...accounts];
+
         if (action === "add") {
-            let accountsState = [...accounts];
             accountsState.push(response);
-            setAccounts([...accountsState]);
         } else {
-            let accountsState = [...accounts];
             accountsState = accountsState.filter(account => account._id !== response);
-            setAccounts([...accountsState]);
         }
+        setAccounts([...accountsState]);
     };
 
     return { accounts, handleAccountsUpdate };

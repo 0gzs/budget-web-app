@@ -17,7 +17,7 @@ const CategoryForm = ({ cancel, close, handleUpdate }) => {
 
     const handleInputChange = (e, name) => {
         if (e.target) setCategory({ ...category, [name]: e.target.value })
-        else setCategory({ ... category, [name]: e });
+        else setCategory({ ...category, [name]: e });
     };
 
     const saveCategory = () => {

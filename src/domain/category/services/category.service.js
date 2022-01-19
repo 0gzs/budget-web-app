@@ -10,7 +10,11 @@ const CategoryService = {
     },
     
     create: data => {
-        console.log(data);
+        return http.post("/api/v1/categories/add", data);
+    },
+
+    delete: id => {
+        return http.delete("/api/v1/categories/" + id);
     }
 };
 

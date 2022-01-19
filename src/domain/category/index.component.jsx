@@ -1,27 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import CategoryService from './services/category.service';
 import dollarUS from "../../services/currency-formatter";
 
-const Categories = ({ handleForm }) => {
-    const [categories, setCategories] = useState(() => {
-        const storage = localStorage.getItem("categories");
-        const parsed = JSON.parse(storage);
+const Categories = ({ categories, handleForm, handleUpdate, isLoading }) => {
 
-        return parsed || null;
-    });
-
-    useEffect(() => {
-        if (!categories) getAll();
-    }, [categories]);
-
-    const getAll = () => {
-        CategoryService.getAll()
-            .then(res => {
-                setCategories([...res.data]);
-                localStorage.setItem("categories", JSON.stringify(res.data));
-            })
-            .catch(err => console.log(err));
+    const deleteAccount = id => {
+        CategoryService.delete(id)
+            .then(() => handleUpdate(id, "delete"))
     };
+
+    if (isLoading) return "Loading...";
 
     return (
         <div className="border p-4">
