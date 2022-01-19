@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import ColorSelector from '../../components/color-selector.component';
-import IconSelector from '../../components/icon-selector.component';
+
+import ColorSelector from '../../components/form/color-selector.component';
+import IconSelector from '../../components/form/icon-selector.component';
+import ButtonGroup from '../../components/form/button-group.component';
+import CategoryService from './services/category.service';
 
 const CategoryForm = ({ cancel, close, handleUpdate }) => {
     const [initialState, setInitialState] = useState({
@@ -15,6 +18,13 @@ const CategoryForm = ({ cancel, close, handleUpdate }) => {
     const handleInputChange = (e, name) => {
         if (e.target) setCategory({ ...category, [name]: e.target.value })
         else setCategory({ ... category, [name]: e });
+    };
+
+    const saveCategory = () => {
+        CategoryService.create(category)
+            .then(res => handleUpdate(res.data, "add"))
+            .catch(err => console.log(err)) 
+            .finally(close);
     };
 
     return (
@@ -40,20 +50,7 @@ const CategoryForm = ({ cancel, close, handleUpdate }) => {
                     placeholder='$100.00'
                 />
             </div>
-            <div className="flex space-x-3">
-                <button 
-                    className="bg-gray-300 py-2 px-3 rounded text-gray-500 font-bold basis-1/2"
-                    onClick={cancel}
-                    >
-                        Cancel
-                </button>
-                <button 
-                    className="bg-green-600 py-2 px-3 rounded text-white font-bold basis-1/2"
-                    onClick={() => {}}
-                    >
-                        Submit
-                </button>
-            </div>
+            <ButtonGroup cancel={cancel} submit={saveCategory} />
         </div>
     );
 };

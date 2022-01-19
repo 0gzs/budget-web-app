@@ -1,5 +1,5 @@
 import React from 'react';
-import { colors } from '../data/category-data';
+import { colors } from '../../data/category-data';
 
 const ColorSelector = ({ selectedColor, handleSelection }) => {
     return (

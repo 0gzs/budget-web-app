@@ -1,5 +1,5 @@
 import React from 'react';
-import { icons } from '../data/category-data';
+import { icons } from '../../data/category-data';
 
 const IconSelector = ({ selectedIcon, handleSelection }) => {
     return (
