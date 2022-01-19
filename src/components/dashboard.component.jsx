@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Accounts from "./accounts.component";
 import Modal from "./modal/modal.component"
 
 const Dashboard = () => {
@@ -8,12 +9,13 @@ const Dashboard = () => {
     const hideModal = () => setShow(false);
 
     return (
-        <main className="w-full h-full flex flex-col items-center justify-center">
-            <h1 className="text-[2rem]">Modal Expirement</h1>
-            {show && <Modal show={show} handleClose={hideModal} />}
-            <button className="bg-violet-500 py-2 px-4 rounded text-white" onClick={showModal}>
-                Open
-            </button>
+        <main className="w-full h-full">
+            {show && <Modal show={show} handleClose={hideModal} formName={"account"} />}
+
+            <div className="border">
+                <h5 className="text-left text-xl font-light text-gray-700">Accounts</h5>
+                <Accounts />
+            </div>
         </main>
     );
 };

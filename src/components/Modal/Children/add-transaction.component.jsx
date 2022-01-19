@@ -28,7 +28,7 @@ const AddTransaction = () => {
     }, [transaction.type])
 
     return (
-        <div className="w-full h-full bg-blue-400">
+        <div>
             <div className='flex items-center bg-red-100'>
                 <input className='appearance-non placeholder-italic border px-[0.125rem] py-[0.175rem]' type="text" placeholder='Description' />
                 <div className={`flex border px-[0.125rem] py-[0.175rem] w-[80px] rounded-lg hover:cursor-pointer ${typeColor}`} onClick={handleType}>
