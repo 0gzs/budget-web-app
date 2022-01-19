@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { colors } from '../../../data/category-data';
 import ColorSelector from '../../color-selector.component';
 import IconSelector from '../../icon-selector.component';
 
@@ -23,7 +22,7 @@ const AddCategory = ({ cancel }) => {
             <input 
                 className="border text-xl rounded-md px-[0.600rem] py-2 placeholder-italic focus:outline-none" 
                 type="text"
-                value={""}
+                value={category.name}
                 onChange={e => handleInputChange(e, "name")}
                 placeholder='Category name'
             />

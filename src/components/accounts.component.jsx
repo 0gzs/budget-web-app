@@ -1,48 +1,16 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useRef, useState } from "react"; 
 import dollarUS from "../utilities/currency-formatter";
 import AccountService from "../services/account.service"; 
 
-const Accounts = ({ handleForm }) => {
-    const [accounts, setAccounts] = useState(() => {
-        let storage = localStorage.getItem("accounts");
-        let parsed = JSON.parse(storage);
-
-        return parsed || null;
-    });
-
-    useEffect(() => !accounts && getAll());
-
-    // useEffect(() => {
-    //     localStorage.setItem("accounts", JSON.stringify(accounts));
-    // }, [accounts])
-
-    const getAll = () => {
-        AccountService.getAll()
-            .then(res => {
-                setAccounts([...res.data]);
-                localStorage.setItem("accounts", JSON.stringify(res.data));
-            })
-            .catch(err => console.log(err));
-    };
-
-    const deleteOne = id => {
-        AccountService.delete(id)
-            .then(() => {
-              let accountsState = [...accounts];
-              accountsState = accountsState.filter(account => account._id !== id);
-              setAccounts([...accountsState]);
-            })
-            .catch(err => console.log(err));
-    };
-
-    const handleAddAccount = account => {
-        const accountsState = [...accounts];
-        accountsState.push(account);
-        setAccounts([...accountsState]);
-    };
-
+const Accounts = ({ accounts, handleForm, handleUpdate }) => {
     const showEditBtn = () => document.getElementById("edit-btns").style.display = "flex";
     const hideEditBtn = () => document.getElementById("edit-btns").style.display = "none";
+
+    const deleteAccount = id => {
+        AccountService.delete(id)
+            .then(() => handleUpdate(id, "delete"))
+            .catch(err => console.log(err));
+    };
     
     const Account = ({ account }) => {
         return (
@@ -53,7 +21,7 @@ const Accounts = ({ handleForm }) => {
                 </div>
                 <div className="w-full hover:flex hover:flex-row justify-end none" id="edit-btns">
                     <button className="mr-1"><i className="bi bi-pencil text-gray-300 hover:text-gray-400"></i> </button>
-                    <button className="mr-1" onClick={() => deleteOne(account._id)}><i className="bi bi-trash text-red-400 hover:text-red-600"></i></button>
+                    <button className="mr-1" onClick={() => deleteAccount(account._id)}><i className="bi bi-trash text-red-400 hover:text-red-600"></i></button>
                 </div>
                 <div className="flex items-center">
                     <p className="text-green-800">{dollarUS.format(account.balance)}</p>

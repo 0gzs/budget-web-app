@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import AccountService from '../../../services/account.service';
 
-const AddAccount = ({ cancel }) => {
+const AddAccount = ({ cancel, close, handleUpdate }) => {
     const [initialState, setInitialState] = useState({
         name: "",
         balance: "",
@@ -13,6 +14,13 @@ const AddAccount = ({ cancel }) => {
         if (name === "balance" && isNaN(e.target.value)) return;
         setAccount({ ...account, [name]: e.target.value }) 
     };
+
+    const saveAccount = () => {
+        AccountService.create(account)
+            .then(res => handleUpdate(res.data, "add"))
+            .catch(err => console.log(err))
+            .finally(close);
+    }
 
     return (
         <div className="flex flex-col space-y-5">
@@ -44,14 +52,12 @@ const AddAccount = ({ cancel }) => {
             <div className="flex space-x-3">
                 <button 
                     className="bg-gray-300 py-2 px-3 rounded text-gray-500 font-bold basis-1/2"
-                    onClick={cancel}
-                    >
-                        Cancel
+                    onClick={cancel}>
+                        Cancel  
                 </button>
                 <button 
                     className="bg-green-600 py-2 px-3 rounded text-white font-bold basis-1/2"
-                    onClick={() => {}}
-                    >
+                    onClick={saveAccount}>
                         Submit
                 </button>
             </div>
