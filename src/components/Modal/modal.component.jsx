@@ -1,5 +1,5 @@
 import React from 'react';
-// import AddTransaction from './Children/add-transaction.component';
+// import AddTransaction from './children/add-transaction.component';
 
 const Modal = ({ handleClose, show, children }) => {
     const showHideClassName = show ? ("fixed overflow-hidden inset-0 bg-gray-700 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center") : "hidden"; 

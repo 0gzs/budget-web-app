@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"; 
-import dollarUS from "../Utilities/currency-formatter";
-import AccountService from "../Services/account.service"; 
+import dollarUS from "../utilities/currency-formatter";
+import AccountService from "../services/account.service"; 
 import AddAccount from "./add-account.component";
 
 const Accounts = () => {
