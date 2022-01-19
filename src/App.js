@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 // import Categories from "./components/categories.component";
 // import Transactions from "./components/transactions.component"; 
 // import ErrorBoundary from "./components/error-boundary.component";
-import Dashboard from "./components/dashboard.component";
+import Dashboard from './Components/dashboard.component';
 
 const App = ()  => {
   const userId = "61df6b800b7ab5b94fbb4497";

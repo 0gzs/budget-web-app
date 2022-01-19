@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AccountService from "../services/account.service";
+import AccountService from "../Services/account.service";
 
 const AddAccount = ({ handleClose, handleAddAccount }) => {
     const [initialState, setInisialState] = useState({

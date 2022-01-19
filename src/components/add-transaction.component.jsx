@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";  
-import TransactionService from "../services/transactions.service";
-import dollarUS from "../utilities/currency-formatter";
+import TransactionService from "../Services/transactions.service";
+import dollarUS from "../Utilities/currency-formatter";
 
 const AddTransaction = ({ close, handleAddTransaction }) => {
     const [initialState, setInitialState] = useState({
