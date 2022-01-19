@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Accounts from "./accounts.component";
-import Modal from "./modal/modal.component"
+import Modal from "./modal/modal.component";
 
 const Dashboard = () => {
     const [show, setShow] = useState(false);
