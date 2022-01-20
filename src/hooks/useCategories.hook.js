@@ -7,27 +7,17 @@ const useCategories = () => {
         
         return JSON.parse(storage) || null;
     });
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
 
-    useEffect(() => {
-        let isMounted = true;
+    useEffect(() => !categories && getAll());
 
-        setLoading(true);
-
+    const getAll = () => {
         CategoryService.getAll()
             .then(res => {
                     setCategories([...res.data]);
-                    setError(null);
                     localStorage.setItem("categories", JSON.stringify(res.data));
             })
-            .catch(err => {
-                if (isMounted) setError(err);
-            })
-            .finally(() => (isMounted && setLoading(false)))
-
-        return () => (isMounted = false);
-    }, [loading]);
+            .catch(err => console.error(err))
+    };
 
     const handleCategoriesUpdate = (response, action) => {
         let categoriesState = [...categories];
@@ -35,12 +25,13 @@ const useCategories = () => {
         if (action === "add") {
             categoriesState.push(response);
         } else {
-            categoriesState = categoriesState.filter(category => category._id === response);
+            categoriesState = categoriesState.filter(category => category._id != response);
         }
         setCategories([...categoriesState]);
+        localStorage.setItem("categories", JSON.stringify([...categoriesState]))
     };
 
-    return { categories, error, loading, handleCategoriesUpdate}
+    return { categories, handleCategoriesUpdate}
 };
 
 export default useCategories;

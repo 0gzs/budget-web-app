@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import CategoryService from './services/category.service';
 
 import ColorSelector from '../../components/form/color-selector.component';
 import IconSelector from '../../components/form/icon-selector.component';
 import ButtonGroup from '../../components/form/button-group.component';
-import CategoryService from './services/category.service';
 
 const CategoryForm = ({ cancel, close, handleUpdate }) => {
     const [initialState, setInitialState] = useState({
@@ -23,8 +23,8 @@ const CategoryForm = ({ cancel, close, handleUpdate }) => {
     const saveCategory = () => {
         CategoryService.create(category)
             .then(res => handleUpdate(res.data, "add"))
-            .catch(err => console.log(err)) 
-            .finally(close);
+            .catch(err => console.log(err));
+        close();
     };
 
     return (
@@ -34,8 +34,7 @@ const CategoryForm = ({ cancel, close, handleUpdate }) => {
                 type="text"
                 value={category.name}
                 onChange={e => handleInputChange(e, "name")}
-                placeholder='Category name'
-            />
+                placeholder='Category name'/>
             <IconSelector selectedIcon={category.icon} handleSelection={handleInputChange}  />
             <ColorSelector selectedColor={category.color} handleSelection={handleInputChange} />
             <div className='flex flex-wrap items-center'>
@@ -46,7 +45,7 @@ const CategoryForm = ({ cancel, close, handleUpdate }) => {
                     className="border rounded-md placeholder-italic w-1/3 px-2 py-1"
                     type="text"
                     value={category.amount}
-                    onChange={ e => handleInputChange(e, "balance")}
+                    onChange={ e => handleInputChange(e, "amount")}
                     placeholder='$100.00'
                 />
             </div>

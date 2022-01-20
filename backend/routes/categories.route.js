@@ -33,7 +33,7 @@ router.route("/:id").put(async (req, res) => {
 
 router.route("/:id").delete((req, res) => {
     Category.findByIdAndDelete(req.params.id)
-        .then(category => res.json(category))
+        .then(() => res.json("deleted"))
         .catch(err => res.status(400).json("Error: " + err));
 });
 

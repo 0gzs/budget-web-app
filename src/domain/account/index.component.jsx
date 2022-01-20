@@ -31,21 +31,21 @@ const Accounts = ({ accounts, handleForm, handleUpdate }) => {
     }
 
     return (
-        <div className="border p-4">
-            <h5 className="text-left text-xl font-light text-gray-700">Accounts</h5>
-            
+        <div className="pt-4">
+            <div className="flex flex-wrap justify-between items-center">
+                <h5 className="text-left text-xl font-light text-gray-700">Accounts</h5>
+                <button 
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
+                    onClick={() => handleForm("account")}>
+                        Add Account
+                    </button>
+            </div>
             <div>            
                 <div className="py-4 max-h-full">
                     {accounts && accounts.map((account, i) => {
                         return <Account account={account} key={i} />
                     })}
                 </div>
-
-                {accounts && 
-                    (<button 
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
-                        onClick={() => handleForm("account")}>Add Account</button>
-                )}
             </div>
         </div>
     );

@@ -9,7 +9,6 @@ const useAccounts = () => {
     });
 
     useEffect(() => !accounts && getAll());
-    useEffect(() => { localStorage.setItem("accounts", JSON.stringify(accounts)) }, [accounts])
 
     const getAll = () => {
         AccountService.getAll()
@@ -29,6 +28,7 @@ const useAccounts = () => {
             accountsState = accountsState.filter(account => account._id !== response);
         }
         setAccounts([...accountsState]);
+        localStorage.setItem("accounts", JSON.stringify(accountsState))
     };
 
     return { accounts, handleAccountsUpdate };

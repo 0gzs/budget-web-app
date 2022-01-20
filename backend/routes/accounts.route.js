@@ -40,7 +40,7 @@ router.route("/:id").put(async (req, res) => {
 
 router.route("/:id").delete((req, res) => {
     Account.findByIdAndDelete(req.params.id)
-        .then(() => res.json("Deleted!"))
+        .then(() => res.json("deleted"))
         .catch(err => res.status(400).json("Error: " + err));
 });
 
