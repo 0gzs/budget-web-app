@@ -18,7 +18,7 @@ const Modal = ({ show, handleClose, formName, handleAccountsUpdate, handleCatego
 
     return (
         <div className={showHideClassName}>
-            <section className='border rounded-lg bg-slate-50 w-[22rem] h-fit p-4'>
+            <section className='border rounded-lg bg-slate-100 w-[22rem] h-fit p-4'>
                 { handleChildren() }
             </section> 
         </div>
