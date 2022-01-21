@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";  
-import TransactionService from "../../services/transactions.service";
+import TransactionService from "./services/transactions.service";
 import dollarUS from "../../services/currency-formatter";
 
-const AddTransaction = ({ close, handleAddTransaction }) => {
+const TransactionForm = ({ close, handleUpdate }) => {
     const [initialState, setInitialState] = useState({
         description: "",
         type: 0,
@@ -65,7 +65,7 @@ const AddTransaction = ({ close, handleAddTransaction }) => {
         TransactionService.create(data)
             .then(res => {
                 setTransaction(initialState);
-                handleAddTransaction(res.data);
+                // handleAddTransaction(res.data);
                 close();
             })
             .catch(err => console.log(err));
@@ -129,4 +129,4 @@ const AddTransaction = ({ close, handleAddTransaction }) => {
     );
 };
 
-export default AddTransaction;
+export default TransactionForm;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import dollarUS from '../../services/currency-formatter';
 import dateFormatter from '../../services/date-formatter';
 
-const Transactions = ({ transactions, handleTransactionsUpdate }) => {
+const Transactions = ({ transactions, handleForm }) => {
     const [height, setHeight] = useState();
     useEffect(() => {
         let h = document.getElementById("transactions").parentElement.scrollHeight;
@@ -15,7 +15,7 @@ const Transactions = ({ transactions, handleTransactionsUpdate }) => {
                 <h1 className="text-left text-xl font-light text-gray-700">Transactions</h1>
                 <button
                     className="bg-violet-600 py-2 px-3 rounded text-white font-bold hover:bg-violet-700 rounded-md"
-                    onClick={() => {}}>
+                    onClick={() => handleForm("transaction")}>
                         New Transactions
                 </button>
             </div>

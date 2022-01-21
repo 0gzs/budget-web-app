@@ -1,16 +1,19 @@
 import React from 'react';
 import AccountForm from '../../domain/account/account-form.component';
 import CategoryForm from '../../domain/category/category-form.component';
+import TransactionForm from '../../domain/transaction/transaction-form.component';
 
-const Modal = ({ show, handleClose, formName, handleAccountsUpdate, handleCategoriesUpdate }) => {
-    const showHideClassName = show ? ("fixed overflow-hidden inset-0 bg-gray-700 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center") : "hidden"; 
+const Modal = ({ show, handleClose, formName, handleAccountsUpdate, handleCategoriesUpdate, handleTransactionsUpdate }) => {
+    const showHideClassName = show ? ("fixed overflow-hidden z-10 inset-0 bg-gray-700 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center") : "hidden"; 
 
     const handleChildren = () => {
         switch (formName) {
             case "account":
-                return <AccountForm cancel={handleClose} close={handleClose} handleUpdate={handleAccountsUpdate} />
+                return <AccountForm close={handleClose} handleUpdate={handleAccountsUpdate} />
             case "category":
-                return <CategoryForm cancel={handleClose} close={handleClose}  handleUpdate={handleCategoriesUpdate} />
+                return <CategoryForm close={handleClose}  handleUpdate={handleCategoriesUpdate} />
+            case "transaction":
+                return <TransactionForm close={handleClose} handleUpdate={handleTransactionsUpdate} />
             default:
                 break;
         }

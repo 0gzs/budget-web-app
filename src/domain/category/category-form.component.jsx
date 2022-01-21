@@ -5,7 +5,7 @@ import ColorSelector from '../../components/form/color-selector.component';
 import IconSelector from '../../components/form/icon-selector.component';
 import ButtonGroup from '../../components/form/button-group.component';
 
-const CategoryForm = ({ cancel, close, handleUpdate }) => {
+const CategoryForm = ({ close, handleUpdate }) => {
     const [initialState, setInitialState] = useState({
         name: "",
         icon: "",
@@ -49,7 +49,7 @@ const CategoryForm = ({ cancel, close, handleUpdate }) => {
                     placeholder='$100.00'
                 />
             </div>
-            <ButtonGroup cancel={cancel} submit={saveCategory} />
+            <ButtonGroup close={close} submit={saveCategory} />
         </div>
     );
 };
