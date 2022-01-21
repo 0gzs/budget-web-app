@@ -10,7 +10,7 @@ const useTransactions = () => {
 
     useEffect(() => !transactions && getAll());
 
-    const store = data => setTransactions([...res.data]) && localStorage.setItem("categories", JSON.stringify(data));
+    const store = data => setTransactions([...data]) && localStorage.setItem("categories", JSON.stringify(data));
 
     const getAll = () => {
         TransactionService.getAll() 
