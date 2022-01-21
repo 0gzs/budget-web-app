@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+
 import useAccounts from "../../hooks/useAccounts.hook";
 import useCategories from "../../hooks/useCategories.hook";
+import useTransactions from "../../hooks/useTransactions.hook";
 
 import Modal from "../modal/modal.component";
 import Accounts from "../../domain/account/index.component";
@@ -10,6 +12,7 @@ import Transactions from "../../domain/transaction/index.component";
 const Dashboard = () => {
     const { accounts, handleAccountsUpdate } = useAccounts();
     const { categories, handleCategoriesUpdate } = useCategories();
+    const { transactions, handleTransactionsUpdate} = useTransactions();
 
     const [show, setShow] = useState(false);
     const [form, setForm] = useState("");
@@ -28,7 +31,7 @@ const Dashboard = () => {
 
             <Accounts accounts={accounts} handleForm={handleFormModal} handleUpdate={handleAccountsUpdate} />    
             <Categories categories={categories} handleForm={handleFormModal} handleUpdate={handleCategoriesUpdate} />
-            <Transactions />
+            <Transactions transactions={transactions} handleUpdate={handleTransactionsUpdate} />
         </main>
     );
 };
