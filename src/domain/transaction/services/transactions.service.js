@@ -10,7 +10,6 @@ const TransactionService = {
     },
     
     create: data => {
-        console.log(data);
         return http.post("/api/v1/transactions/add", data);
     },
 

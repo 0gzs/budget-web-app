@@ -10,7 +10,10 @@ const useTransactions = () => {
 
     useEffect(() => !transactions && getAll());
 
-    const store = data => setTransactions([...data]) && localStorage.setItem("categories", JSON.stringify(data));
+    const store = data => {
+        setTransactions([...data]); 
+        localStorage.setItem("transactions", JSON.stringify(data))
+    };
 
     const getAll = () => {
         TransactionService.getAll() 
@@ -22,8 +25,8 @@ const useTransactions = () => {
         let transactionsState = [...transactions];
         if (action === "add") transactionsState.push(response)
         else transactionsState = transactionsState.filter(transaction => transaction._id !== response);
-        store(response);
-    };
+        store(transactionsState);
+    };  
 
     return { transactions, handleTransactionsUpdate };
 };
