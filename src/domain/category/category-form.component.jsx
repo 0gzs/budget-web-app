@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import CategoryService from './services/category.service';
+import getBudgetedAmounts from './services/getBudgetAmounts.service';
 
 import ColorSelector from '../../components/form/color-selector.component';
 import IconSelector from '../../components/form/icon-selector.component';
 import ButtonGroup from '../../components/form/button-group.component';
 
 const CategoryForm = ({ close, handleUpdate }) => {
-    const [initialState, setInitialState] = useState({
+    const initialState = {
         name: "",
         icon: "",
         color: "",
         amount: "",
         user: localStorage.getItem("userId")
-    });
+    };
     const [category, setCategory] = useState(initialState);
+    const { amountToBudget } = getBudgetedAmounts()
 
     const handleInputChange = (e, name) => {
         if (e.target) setCategory({ ...category, [name]: e.target.value })
@@ -21,6 +23,8 @@ const CategoryForm = ({ close, handleUpdate }) => {
     };
 
     const saveCategory = () => {
+        if (amountToBudget <= 0) return; 
+
         CategoryService.create(category)
             .then(res => handleUpdate(res.data, "add"))
             .catch(err => console.log(err));

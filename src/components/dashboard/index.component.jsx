@@ -26,7 +26,7 @@ const Dashboard = () => {
     };
 
     return (
-        <main className="w-full h-full px-80 flex flex-col space-y-4">
+        <main className="w-full h-full px-5 flex flex-col space-y-4">
             {show && <Modal show={show} handleClose={hideModal} formName={form} handleAccountsUpdate={handleAccountsUpdate} handleCategoriesUpdate={handleCategoriesUpdate} handleTransactionsUpdate={handleTransactionsUpdate} />}
 
             <Accounts accounts={accounts} handleForm={handleFormModal} handleUpdate={handleAccountsUpdate} />    
