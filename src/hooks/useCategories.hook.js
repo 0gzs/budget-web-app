@@ -24,11 +24,20 @@ const useCategories = () => {
 
         if (action === "add") {
             categoriesState.push(response);
-        } else {
+        } else if (action === "delete") {
             categoriesState = categoriesState.filter(category => category._id != response);
+        } else {
+            categoriesState = updateCategories(response);
         }
         setCategories([...categoriesState]);
         localStorage.setItem("categories", JSON.stringify([...categoriesState]))
+    };
+
+    const updateCategories = category => {
+        let categories = JSON.parse(localStorage.getItem("categories"));
+        categories = categories.filter(c => c._id !== category._id);
+        categories.push(category);
+        return categories;
     };
 
     return { categories, handleCategoriesUpdate}

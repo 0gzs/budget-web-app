@@ -14,18 +14,6 @@ router.route("/").get((req, res) => {
 router.route("/add").post(async (req, res) => {
     const { description, date, amount, type, category, account } = req.body;
     const transaction = new Transaction({ description, date: Date.parse(date), amount, type, category, account });
-    
-    // const categoryObject = await Category.findOne({ _id: category });
-    // categoryObject.amount -= amount;
-    // if (categoryObject.amount < 0) return res.status(400).json("Error: " + "Not enough money in the category.")
-    // else await categoryObject.save();
-
-    // const accountObject = await Account.findOne({ _id: account });
-    // accountObject.amount -= amount;
-    // if (accountObject.amount < 0) return res.status(400).json("Error: " + "Not enough money in that account")
-    // else await accountObject.save();
-
-    console.log(transaction);
 
     transaction.save()
         .then(transaction => res.json(transaction))

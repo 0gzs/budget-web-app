@@ -31,6 +31,13 @@ router.route("/:id").put(async (req, res) => {
         .catch(err => res.status(400).json("Error: " + err));
 });
 
+router.route("/:id/transaction").put(async (req, res) => {
+    Category.findByIdAndUpdate({ _id: req.params.id }, 
+        { $inc: { amount: -req.body.amount } })
+        .then(category => res.json(category))
+        .catch(err => res.status(400).json("Error: " + err))
+});
+
 router.route("/:id").delete((req, res) => {
     Category.findByIdAndDelete(req.params.id)
         .then(() => res.json("deleted"))

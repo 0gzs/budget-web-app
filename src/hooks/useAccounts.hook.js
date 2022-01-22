@@ -24,11 +24,20 @@ const useAccounts = () => {
 
         if (action === "add") {
             accountsState.push(response);
-        } else {
+        } else if (action == "delete") {
             accountsState = accountsState.filter(account => account._id !== response);
+        } else {
+            accountsState = updateAccounts(response);
         }
         setAccounts([...accountsState]);
         localStorage.setItem("accounts", JSON.stringify(accountsState))
+    };
+
+    const updateAccounts = account => {
+        let accounts = JSON.parse(localStorage.getItem("accounts"));
+        accounts = accounts.filter(a => a._id !== account._id);
+        accounts.push(account);
+        return accounts;
     };
 
     return { accounts, handleAccountsUpdate };

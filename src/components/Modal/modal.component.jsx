@@ -13,7 +13,8 @@ const Modal = ({ show, handleClose, formName, handleAccountsUpdate, handleCatego
             case "category":
                 return <CategoryForm close={handleClose}  handleUpdate={handleCategoriesUpdate} />
             case "transaction":
-                return <TransactionForm close={handleClose} handleUpdate={handleTransactionsUpdate} />
+                return <TransactionForm close={handleClose} handleUpdate={handleTransactionsUpdate} handleAccount={handleAccountsUpdate}
+                handleCategory={handleCategoriesUpdate} />
             default:
                 break;
         }

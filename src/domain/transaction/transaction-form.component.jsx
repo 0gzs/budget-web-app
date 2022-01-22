@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react';
 import ButtonGroup from '../../components/form/button-group.component';
 import TransactionsService from './services/transactions.service';
+import AccountService from '../account/services/account.service';
+import CategoryService from '../category/services/category.service';
 
-const TransactionForm = ({ close, handleUpdate, }) => {
+const TransactionForm = ({ close, handleUpdate, handleAccount, handleCategory }) => {
     let typeClasses = useMemo(() => {
         return { red: "bg-red-600", green: "bg-green-600 justify-end" }
     }, []);
@@ -22,8 +24,8 @@ const TransactionForm = ({ close, handleUpdate, }) => {
         account: ""
     });
     const [transaction, setTransaction] = useState(initialState);
-    const [categories, setCategories] = useState(JSON.parse(localStorage.getItem("categories")));
-    const [accounts, setAccounts] = useState(JSON.parse(localStorage.getItem("accounts")));
+    const categories = JSON.parse(localStorage.getItem("categories"));
+    const accounts = JSON.parse(localStorage.getItem("accounts"));
 
     const handleInputChange = (e, name) => setTransaction({ ...transaction, [name]: e.target.value });
 
@@ -33,9 +35,23 @@ const TransactionForm = ({ close, handleUpdate, }) => {
         setAmountColor(typeColor === amountClasses.red ? amountClasses.green : amountClasses.red);
     };
 
+    const clearUpdateStoredData = transaction => {
+        AccountService.transaction(transaction.account, transaction.amount)
+            .then(res => handleAccount(res.data, "update"))
+            .catch(err => alert(err))
+            .finally(() => alert("done"));
+        CategoryService.transaction(transaction.category, transaction.amount)
+            .then(res => handleCategory(res.data, "update"))
+            .catch(err => console.log(err))
+            .finally(() => alert("done"));
+    }
+
     const saveTransaction = () => {
         TransactionsService.create(transaction)
-            .then(res => handleUpdate(res.data, "add"))
+            .then(res => {
+                handleUpdate(res.data, "add");
+                clearUpdateStoredData(res.data);
+            })
             .catch(err => console.log(err));
         close();
     };
@@ -82,7 +98,7 @@ const TransactionForm = ({ close, handleUpdate, }) => {
                     value={transaction.category}
                     >
                         <option>-Select-</option>
-                        {categories.map((category, i) => {
+                        {categories && categories.map((category, i) => {
                             return <option key={i} value={category._id}>{category.name}</option>
                         })}
                 </select>
@@ -92,7 +108,7 @@ const TransactionForm = ({ close, handleUpdate, }) => {
                     value={transaction.account}
                     >
                         <option>-Select-</option>
-                        {accounts.map((account, i) => {
+                        {accounts && accounts.map((account, i) => {
                             return <option key={i} value={account._id}>{account.name}</option>
                         })}
                 </select>

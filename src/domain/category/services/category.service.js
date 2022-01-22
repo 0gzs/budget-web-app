@@ -15,6 +15,10 @@ const CategoryService = {
 
     delete: id => {
         return http.delete("/api/v1/categories/" + id);
+    },
+
+    transaction: (id, amount) => {
+        return http.put(`/api/v1/categories/${id}/transaction`, { amount: amount });
     }
 };
 

@@ -15,6 +15,10 @@ const AccountService = {
 
     delete: id => {
         return http.delete("/api/v1/accounts/" + id);
+    },
+
+    transaction: (id, amount) => {
+        return http.put(`/api/v1/accounts/${id}/transaction`, { amount: amount});
     }
 };
 

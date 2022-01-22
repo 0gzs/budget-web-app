@@ -12,7 +12,7 @@ import Transactions from "../../domain/transaction/index.component";
 const Dashboard = () => {
     const { accounts, handleAccountsUpdate } = useAccounts();
     const { categories, handleCategoriesUpdate } = useCategories();
-    const { transactions, handleTransactionsUpdate} = useTransactions();
+    const { transactions, handleTransactionsUpdate } = useTransactions();
 
     const [show, setShow] = useState(false);
     const [form, setForm] = useState("");
