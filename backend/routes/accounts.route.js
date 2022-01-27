@@ -28,7 +28,7 @@ router.route("/:id").get((req, res) => {
 });
 
 router.route("/:id").put(async (req, res) => {
-    const account = await Account.findOne({ _id: req.params.id });
+    const account = await Account.findByIdAndUpdate({ _id: req.params.id })
     for (let [key, val] of Object.entries(req.body)) {
         transaction[key] = val;
     };
@@ -41,7 +41,7 @@ router.route("/:id").put(async (req, res) => {
 router.route("/:id/transaction").put(async (req, res) => {
     Account.findByIdAndUpdate({ _id: req.params.id },
         { $inc: { balance: -req.body.amount } })
-        .then(account => res.json(account))
+        .then(account => res.json(account._id))
         .catch(err => res.status(400).json("Error: " + err));
 });
 

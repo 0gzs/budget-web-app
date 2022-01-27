@@ -33,7 +33,7 @@ router.route("/:id").put(async (req, res) => {
 
 router.route("/:id").delete((req, res) => {
     Transaction.findByIdAndDelete({ _id: req.params.id })
-        .then(() => res.json("Deteted!"))
+        .then(() => res.json("deleted"))
         .catch(err => res.status(400).json("Error: " + err));
 });
 

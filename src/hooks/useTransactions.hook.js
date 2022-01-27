@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TransactionService from "../domain/transaction/services/transactions.service";
+import TransactionService from '../components/transactions/services/transaction.service';
 
 const useTransactions = () => {
     const [transactions, setTransactions] = useState(() => {
@@ -9,6 +9,9 @@ const useTransactions = () => {
     });
 
     useEffect(() => !transactions && getAll());
+    useEffect(() => {
+        localStorage.setItem("transactions", JSON.stringify(transactions));
+    }, [transactions]);
 
     const store = data => {
         setTransactions([...data]); 
@@ -21,14 +24,9 @@ const useTransactions = () => {
             .catch(err => console.err(err));
     };
 
-    const handleTransactionsUpdate = (response, action) => {
-        let transactionsState = [...transactions];
-        if (action === "add") transactionsState.push(response)
-        else transactionsState = transactionsState.filter(transaction => transaction._id !== response);
-        store(transactionsState);
-    };  
+    const handleTransactions = trs => setTransactions(trs);
 
-    return { transactions, handleTransactionsUpdate };
+    return { transactions, handleTransactions };
 };
 
 export default useTransactions;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import AccountService from '../domain/account/services/account.service';
+import AccountService from '../components/accounts/services/account.service';
 
 const useAccounts = () => {
     const [accounts, setAccounts] = useState(() => {
@@ -10,37 +10,20 @@ const useAccounts = () => {
 
     useEffect(() => !accounts && getAll());
 
+    const store = data => {
+        setAccounts([...data]); 
+        localStorage.setItem("accounts", JSON.stringify(data))
+    };
+
     const getAll = () => {
         AccountService.getAll()
-            .then(res => {
-                setAccounts([...res.data]);
-                localStorage.setItem("accounts", JSON.stringify(res.data));
-            })
+            .then(res => store(res.data))
             .catch(err => console.log(err));
     };
 
-    const handleAccountsUpdate = (response, action) => {
-        let accountsState = [...accounts];
+    const handleAccounts = acc => setAccounts(acc);
 
-        if (action === "add") {
-            accountsState.push(response);
-        } else if (action == "delete") {
-            accountsState = accountsState.filter(account => account._id !== response);
-        } else {
-            accountsState = updateAccounts(response);
-        }
-        setAccounts([...accountsState]);
-        localStorage.setItem("accounts", JSON.stringify(accountsState))
-    };
-
-    const updateAccounts = account => {
-        let accounts = JSON.parse(localStorage.getItem("accounts"));
-        accounts = accounts.filter(a => a._id !== account._id);
-        accounts.push(account);
-        return accounts;
-    };
-
-    return { accounts, handleAccountsUpdate };
+    return { accounts, handleAccounts };
 }
 
 export default useAccounts;

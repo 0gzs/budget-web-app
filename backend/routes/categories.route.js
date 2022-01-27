@@ -34,7 +34,7 @@ router.route("/:id").put(async (req, res) => {
 router.route("/:id/transaction").put(async (req, res) => {
     Category.findByIdAndUpdate({ _id: req.params.id }, 
         { $inc: { amount: -req.body.amount } })
-        .then(category => res.json(category))
+        .then(category => res.json(category._id))
         .catch(err => res.status(400).json("Error: " + err))
 });
 

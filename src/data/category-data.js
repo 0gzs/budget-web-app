@@ -14,7 +14,7 @@ const icons = [
     "bi bi-apple"
 ];
 
-const colors = [
+const iconColors = [
     "#9C4848",
     "#FFDDF4",
     "#58e88d",
@@ -29,5 +29,5 @@ const colors = [
 
 export {
     icons,
-    colors
+    iconColors
 };

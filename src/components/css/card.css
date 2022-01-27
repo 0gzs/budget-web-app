@@ -1,0 +1,33 @@
+.card {
+    @apply w-[350px] py-6 flex
+    rounded-lg shadow-md px-4 
+    flex-col space-y-4 font-source bg-carbon
+    text-white;
+}
+
+.card-title {
+    @apply text-2xl uppercase
+    font-huge text-center tracking-widest
+    bg-dark/50 py-3 px-4 rounded-md w-fit
+    m-auto;
+}
+
+.card-btn {
+    @apply w-full rounded-lg
+    shrink-0 shadow-md
+    hover:shadow-lg bg-carbonlight 
+    hover:bg-cyan-500 font-huge 
+    text-center uppercase text-xl 
+    flex items-center justify-center
+    p-2;
+}
+
+.card-icon {
+    @apply text-3xl mt-[2px];
+}
+
+@screen sm {
+    .card {
+        @apply w-[500px] px-12;
+    }
+}
