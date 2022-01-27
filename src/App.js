@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Dash from "./domain/dash/index.component";
+import Dash from "./pages/dash/index.component";
 
 const App = ()  => {
   const userId = "61df6b800b7ab5b94fbb4497";

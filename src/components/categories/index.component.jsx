@@ -10,7 +10,8 @@ const Categories = ({ categories }) => {
     const hideForm = () => setShow(false);
 
     return (
-        <div className='card max-h-[400px] relative'>
+        <div className='card max-h-[400px]'>
+            {show && <CategoryForm hideForm={hideForm}/>}
             <h1 className='card-title'> Categories </h1>
 
             <div className='w-full overflow-y-auto 
@@ -22,7 +23,6 @@ const Categories = ({ categories }) => {
                         <Category key={i} category={category} />
                         );
                     })}
-                {show && <CategoryForm hideForm={hideForm}/>}
             </div>
             
             <button className='card-btn' onClick={showForm}>

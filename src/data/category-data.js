@@ -15,16 +15,16 @@ const icons = [
 ];
 
 const iconColors = [
-    "#9C4848",
-    "#FFDDF4",
-    "#58e88d",
-    "#58e8e1",
-    "#e8585a",
-    "#FF9900",
-    "#74a9b3",
-    "#1D3F6E",
-    "#0080FF",
-    "#000"
+    "carbonlight",
+    "carbonblue",
+    "orange",
+    "darkred",
+    "lightpink",
+    "moneygreen",
+    "darkgreen",
+    "darkteal",
+    "yellow",
+    "eucalyptus"
 ];
 
 export {

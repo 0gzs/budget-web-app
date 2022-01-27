@@ -9,16 +9,16 @@ module.exports = {
         dark: "#12181B",
         carbon: "#2A2E35",
         'carbon-text': "#9CA3AF",
-        softred: "#f25776",
+        carbonlight: "#323a42",
+        carbonblue: "#334E5C",
+        orange: "#E27B47",
         darkred: "#ad3737",
         lightpink: "#FFDDF4",
         moneygreen: "#23d183",
         darkgreen: "#23D183",
-        blue: "#54C5F8",
+        darkteal: "#00b6a2",
         yellow: "#ffcb2b",
-        carbonlight: "#323a42",
-        eucalyptus: "#6675E0",
-        gray: "#B0BCCB"
+        eucalyptus: "#b985f9"
       },
       fontFamily: {
         source: ["'Source Sans Pro'", 'sans-serif']
