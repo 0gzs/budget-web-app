@@ -32,8 +32,8 @@ const Category = ({ category, remove, update }) => {
             
             <div className='w-4/5 ml-2 flex flex-col'>
                 <p className='text-xl font-huge text-neutral-100
-                              tracking-wide'>{capitalizeFirstLetter(category.name)}</p>
-                <div className={`bg-carbon ${edit ? 'w-[95%]' : 'w-fit'} px-4 py-2 
+                              tracking-wide'>{category.name && capitalizeFirstLetter(category.name)}</p>
+                <div className={`bg-dark ${edit ? 'w-[92%]' : 'w-fit'} px-3 py-2 
                                 rounded-md`}>
                     {!edit ? 
                     <p onClick={showForm} className='font-huge text-xl text-yellow hover:cursor-pointer'>

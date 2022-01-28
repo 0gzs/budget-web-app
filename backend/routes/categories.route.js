@@ -21,13 +21,9 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/:id").put(async (req, res) => {
-    const category = await Category.findOne({ _id: req.params.id });
-    for (let [key, val] of Object.entries(req.body)) {
-        category[key] = val;
-    };
-
-    category.save()
-        .then(() => res.json(category))
+    Category.findByIdAndUpdate({ _id: req.params.id },
+        { $set: { [req.body.field]: req.body.data } })
+        .then(category => res.json(category))
         .catch(err => res.status(400).json("Error: " + err));
 });
 

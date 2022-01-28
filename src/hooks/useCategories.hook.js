@@ -21,7 +21,7 @@ const useCategories = () => {
             .catch(err => console.error(err))
     };
 
-    const handleCategories = cats => setCategories(cats);
+    const handleCategories = data => store(data);
 
     return { categories, handleCategories };
 };

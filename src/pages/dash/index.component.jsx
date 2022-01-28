@@ -8,7 +8,7 @@ import Categories from '../../components/categories/index.component'
 import Transactions from '../../components/transactions/index.component';
 
 const Dash = () => {
-    const { accounts, handleAccounts } = useAccounts();
+    const { accounts, handleAccounts, balance } = useAccounts();
     const { categories, handleCategories } = useCategories();
     const { transactions, handleTransactions } = useTransactions();
 
@@ -24,6 +24,7 @@ const Dash = () => {
                     updateState={handleAccounts} />
                 <Categories 
                     categories={categories} 
+                    balance={balance}
                     updateState={handleCategories} />
             </div>
            <div className='w-fit h-[680px]'>

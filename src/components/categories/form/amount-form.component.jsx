@@ -4,17 +4,18 @@ import CategoryService from '../services/category.service';
 const AmountForm = ({ id, update, hideForm }) => {
     const [amount, setAmount] = useState("");
 
-    const editCategory = () => {
-        CategoryService.update(id, amount)
-            .then(() => update(id))
+    const editCategory = async () => {
+        await CategoryService.update(id, amount, "amount")
+            .then(() => update(id, amount))
             .catch(err => console.log(err));
+        hideForm();
     };
 
     return (
         <div className='w-fit flex flex-col'>
             <input 
-                className='bg-carbon text-white w-1/2 
-                           font-huge text-xl focus:outline-none'
+                className='bg-dark text-white w-1/2
+                           font-huge text-lg focus:outline-none'
                 type="text"
                 value={amount}
                 onChange={e => setAmount(e.target.value)}
@@ -24,7 +25,7 @@ const AmountForm = ({ id, update, hideForm }) => {
                     className='px-2 text-md bg-red-500 font-big text-white'>
                     Cancel
                 </button>
-                <button onClick={() => {}}
+                <button onClick={editCategory}
                     className='px-1 text-md bg-moneygreen font-big text-white'>
                     Submit
                 </button>

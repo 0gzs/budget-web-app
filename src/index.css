@@ -31,10 +31,6 @@ body {
   .placeholder-italic::placeholder{
     @apply italic;
   }
-
-  .placeholder-yellow::placeholder {
-    @apply bg-yellow;
-  }
 }
 
 /* Hide scrollbar for Chrome, Safari and Opera */
