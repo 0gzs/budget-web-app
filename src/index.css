@@ -29,7 +29,11 @@ body {
 
 @layer utilities {
   .placeholder-italic::placeholder{
-    @apply italic
+    @apply italic;
+  }
+
+  .placeholder-yellow::placeholder {
+    @apply bg-yellow;
   }
 }
 

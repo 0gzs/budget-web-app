@@ -19,7 +19,7 @@ const CategoryForm = ({ hideForm, addCategory }) => {
     };
 
     return (
-        <div className='absolute left-1/2 
+        <div className='absolute left-1/2 z-10
                         bottom-20 w-[300px]
                         transform -translate-x-1/2 
                       bg-dark p-4 flex flex-col

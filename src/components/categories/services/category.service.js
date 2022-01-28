@@ -13,6 +13,10 @@ const CategoryService = {
         return http.post("/api/v1/categories/add", data);
     },
 
+    update: (id, data) => {
+        return http.put("/api/v1/categories/" + id, { data: data })
+    },
+
     delete: id => {
         return http.delete("/api/v1/categories/" + id);
     },

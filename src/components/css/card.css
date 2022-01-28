@@ -28,6 +28,6 @@
 
 @screen sm {
     .card {
-        @apply w-[500px] px-12;
+        @apply w-[500px] px-8;
     }
 }

@@ -15,8 +15,21 @@ const Categories = ({ categories, updateState }) => {
         updateState(state);
     };
 
+    const updateCategory = updatedCategory => {
+        let state = [...categories];
+        state = state.filter(category => category._id !== updatedCategory.id);
+        state.push(updatedCategory);
+        updateState(state);
+    };
+
+    const removeCategory = id => {
+        let state = [...categories];
+        state = state.filter(category => category._id !== id);
+        updateState(state);
+    };
+
     return (
-        <div className='card max-h-[400px]'>
+        <div className='card max-h-[400px] border'>
             {show && <CategoryForm hideForm={hideForm} addCategory={addCategory} />}
             <h1 className='card-title'> Categories </h1>
 
@@ -26,7 +39,10 @@ const Categories = ({ categories, updateState }) => {
                             py-2 flex-1'>
                 {categories && categories.map((category, i) => {
                     return (
-                        <Category key={i} category={category} />
+                        <Category key={i} 
+                            category={category} 
+                            remove={removeCategory}
+                            update={updateCategory} />
                         );
                     })}
             </div>
