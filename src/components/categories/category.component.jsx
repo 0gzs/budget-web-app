@@ -3,10 +3,10 @@ import Emoji from '../emoji.component';
 import capitalizeFirstLetter from '../../services/capitalize.service';
 import CategoryService from './services/category.service';
 import AmountForm from './form/amount-form.component';
+import { formatWihoutSymbol } from '../../services/currency-formatter';
 
 const Category = ({ category, remove, update }) => {
     const [edit, setEdit] = useState(false);
-    const color = `bg-${category.color}`;
 
     const deleteOne = () => {
         CategoryService.delete(category._id)
@@ -19,7 +19,7 @@ const Category = ({ category, remove, update }) => {
     return (
         <div className={`w-full py-2 rounded-lg 
                         shrink-0 flex items-center 
-                        text-dark shadow-md ${color} relative group`}>
+                        text-dark shadow-md ${category.color} relative group`}>
 
             <div onClick={deleteOne} 
                 className='w-6 h-6 absolute 
@@ -39,9 +39,9 @@ const Category = ({ category, remove, update }) => {
                     {!edit ? 
                     <p onClick={showForm} className='font-huge text-xl text-yellow hover:cursor-pointer'>
                         <span className='text-moneygreen'>$</span>
-                        {category.amount.toFixed(2)}
+                        {formatWihoutSymbol(category.amount)}
                     </p> :
-                    <AmountForm id={category._id} update={update} hideForm={hideForm} />}
+                    <AmountForm id={category._id} amount={category.amount} update={update} hideForm={hideForm} />}
                 </div>
             </div>
         </div>

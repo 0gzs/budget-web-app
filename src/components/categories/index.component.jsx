@@ -26,7 +26,7 @@ const Categories = ({ categories, balance, updateState }) => {
     const updateCategory = (id, amount) => {
         let state = categories.map(category => {
             if (category._id === id) {
-                category.amount = parseInt(amount)
+                category.amount = amount
                 return category;
             } 
             return category;

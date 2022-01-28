@@ -19,23 +19,26 @@ const Transactions = ({ transactions, updateState, updateCategory, updateAccount
 
     const update = (component, id, amount) => {
         let state;
-        let index;
         if (component === "accounts") {
-            state = [...accounts];
-            let index;
-            for (let i = 0; i < state.length; i++) {
-                if (state[i]._id === id) index = i;
-            }
-            state[index].balance -= amount;
-            return updateAccount(state);
+            state = accounts.map(account => {
+                if (account._id === id) {
+                    account.balance -= parseInt(amount)
+                    return account;
+                } 
+                return account;
+            })
+            updateAccount(state);
+            return;
         }
 
-        state = [...categories];
-        for (let i = 0; i < state.length; i++) {
-            if (state[i]._id === id) return index = i;
-        }
-        state[index].amount -= amount;
-        return updateCategory(state);
+        state = categories.map(category => {
+            if (category._id === id) {
+                category.amount -= parseInt(amount)
+                return category;
+            } 
+            return category;
+        })
+        updateCategory(state);
     };
 
     const deleteTransaction = id => {

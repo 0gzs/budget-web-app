@@ -21,6 +21,7 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/:id").put(async (req, res) => {
+    if (req.body.field === "amount") req.body.data = parseFloat(req.body.data)
     Category.findByIdAndUpdate({ _id: req.params.id },
         { $set: { [req.body.field]: req.body.data } })
         .then(category => res.json(category))

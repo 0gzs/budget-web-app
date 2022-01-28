@@ -53,7 +53,7 @@ const CategoryForm = ({ hideForm, addCategory }) => {
             </div>
 
             <div className='flex w-full overflow-x-auto
-                            space-x-2 no-scrollbar'>
+                            space-x-2'>
                 {icons.map((icon, i) => {
                     const borderColor = icon === category.icon ? (
                         "border-2 border-neutral-400"
