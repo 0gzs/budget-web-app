@@ -8,7 +8,7 @@ module.exports = {
       colors: {
         dark: "#12181B",
         carbon: "#2A2E35",
-        'carbon-text': "#9CA3AF",
+        carbontext: "#9CA3AF",
         carbonlight: "#323a42",
         carbonblue: "#334E5C",
         orange: "#E27B47",
