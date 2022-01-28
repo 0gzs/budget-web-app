@@ -6,6 +6,7 @@ import AmountForm from './form/amount-form.component';
 
 const Category = ({ category, remove, update }) => {
     const [edit, setEdit] = useState(false);
+    const color = `bg-${category.color}`;
 
     const deleteOne = () => {
         CategoryService.delete(category._id)
@@ -18,7 +19,7 @@ const Category = ({ category, remove, update }) => {
     return (
         <div className={`w-full py-2 rounded-lg 
                         shrink-0 flex items-center 
-                        text-dark shadow-md bg-${category.color} relative group`}>
+                        text-dark shadow-md ${color} relative group`}>
 
             <div onClick={deleteOne} 
                 className='w-6 h-6 absolute 

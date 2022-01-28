@@ -14,20 +14,19 @@ const icons = [
     "bi bi-apple"
 ];
 
-const iconColors = [
-    "carbonlight",
-    "carbonblue",
-    "orange",
-    "darkred",
-    "lightpink",
-    "moneygreen",
-    "darkgreen",
-    "darkteal",
-    "yellow",
-    "eucalyptus"
+const backgroundColors = [
+    "bg-carbonlight",
+    "bg-carbonblue",
+    "bg-orange",
+    "bg-darkred",
+    "bg-lightpink",
+    "bg-moneygreen",
+    "bg-darkgreen",
+    "bg-darkteal",
+    "bg-yellow"
 ];
 
 export {
     icons,
-    iconColors
+    backgroundColors
 };
