@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { iconColors, icons } from '../../../data/category-data';
+import CategoryService from '../services/category.service';
 
-const CategoryForm = ({ hideForm }) => {
+const CategoryForm = ({ hideForm, addCategory }) => {
     const [category, setCategory] = useState({
         name: "",
         color: "",
@@ -9,6 +10,13 @@ const CategoryForm = ({ hideForm }) => {
     });
 
     const handleInputChange = (val, name) => setCategory({ ...category, [name]: val });
+
+    const saveCategory = async () => {
+        await CategoryService.create(category)
+            .then(res => addCategory(res.data))
+            .catch(err => console.log(err));
+        hideForm();
+    };
 
     return (
         <div className='absolute left-1/2 
@@ -31,9 +39,13 @@ const CategoryForm = ({ hideForm }) => {
                             no-scrollbar grid grid-cols-5
                             gap-2 items-center justify-center'>
                 {iconColors.map((color, i) => {
+                    const borderColor = color === category.color ? (
+                        "border-3 border-neutral-100"
+                    ) : "";
                     return (
                         <div key={i} 
-                            className={`w-10 h-10 bg-${color} rounded-md shrink-0
+                            onClick={() => handleInputChange(color, "color")}
+                            className={`w-10 h-10 bg-${color} ${borderColor} rounded-md shrink-0
                             hover:cursor-pointer shadow-md`}>
                         </div>
                     );
@@ -63,7 +75,7 @@ const CategoryForm = ({ hideForm }) => {
                     className='w-1/3 rounded-sm 
                                text-lg px-3 py-2 bg-carbonlight 
                                uppercase font-huge hover:bg-darkred'>Nvm.</button>
-                <button onClick={() => {}}
+                <button onClick={saveCategory}
                     className='w-2/3 rounded-sm 
                                text-lg px-3 py-2 bg-moneygreen 
                                uppercase font-huge'>

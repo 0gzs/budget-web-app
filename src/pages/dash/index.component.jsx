@@ -19,15 +19,19 @@ const Dash = () => {
                         space-x-3 relative'>
             <div className='flex flex-col
                             space-y-3 w-fit'>
-                <Accounts accounts={accounts} updateState={handleAccounts} />
-                <Categories categories={categories} updateState={handleCategories} />
+                <Accounts 
+                    accounts={accounts} 
+                    updateState={handleAccounts} />
+                <Categories 
+                    categories={categories} 
+                    updateState={handleCategories} />
             </div>
            <div className='w-fit h-[680px]'>
             <Transactions 
-                    transactions={transactions}
-                    updateState={handleTransactions}
-                    updateCategory={handleCategories}
-                    updateAccount={handleAccounts} />
+                transactions={transactions}
+                updateState={handleTransactions}
+                updateCategory={handleCategories}
+                updateAccount={handleAccounts} />
            </div>
         </div>
     );

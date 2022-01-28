@@ -3,15 +3,21 @@ import React, { useState } from 'react';
 import Category from './category.component';
 import CategoryForm from './form/form.component';
 
-const Categories = ({ categories }) => {
+const Categories = ({ categories, updateState }) => {
     const [show, setShow] = useState(false);
 
     const showForm = () => setShow(true);
     const hideForm = () => setShow(false);
 
+    const addCategory = category => {
+        let state = [...categories];
+        state.push(category);
+        updateState(state);
+    };
+
     return (
         <div className='card max-h-[400px]'>
-            {show && <CategoryForm hideForm={hideForm}/>}
+            {show && <CategoryForm hideForm={hideForm} addCategory={addCategory} />}
             <h1 className='card-title'> Categories </h1>
 
             <div className='w-full overflow-y-auto 

@@ -10,10 +10,10 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-    const { name, icon, color, amount } = req.body;
+    const { name, icon, color } = req.body;
     const user = "61df6b800b7ab5b94fbb4497";
     
-    const category = new Category({ name, icon, color, amount, user });
+    const category = new Category({ name, icon, color, amount: 0, user });
     
     category.save()
         .then(category => res.json(category))

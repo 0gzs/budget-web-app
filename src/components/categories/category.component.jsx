@@ -3,10 +3,9 @@ import capitalizeFirstLetter from '../../services/capitalize.service';
 
 const Category = ({ category }) => {
     return (
-        <div style={{ backgroundColor: `${category.color}` }} 
-            className='w-full py-2 rounded-lg 
+        <div className={`w-full py-2 rounded-lg 
                         shrink-0 flex items-center 
-                        text-dark shadow-md'>
+                        text-dark shadow-md bg-${category.color}`}>
             <i className={ `${category.icon} text-2xl ml-4` }></i>
             <div className='w-4/5 ml-2'>
                 <p className='text-xl font-huge text-neutral-100
