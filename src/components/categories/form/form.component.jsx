@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { iconColors, icons } from '../../../data/category-data';
+import { backgroundColors, icons } from '../../../data/category-data';
 import CategoryService from '../services/category.service';
 
 const CategoryForm = ({ hideForm, addCategory }) => {
@@ -38,14 +38,14 @@ const CategoryForm = ({ hideForm, addCategory }) => {
             <div className='w-full overflow-y-auto
                             no-scrollbar grid grid-cols-5
                             gap-2 items-center justify-center'>
-                {iconColors.map((color, i) => {
+                {backgroundColors.map((color, i) => {
                     const borderColor = color === category.color ? (
                         "border-3 border-neutral-100"
                     ) : "";
                     return (
                         <div key={i} 
                             onClick={() => handleInputChange(color, "color")}
-                            className={`w-10 h-10 bg-${color} ${borderColor} rounded-md shrink-0
+                            className={`w-10 h-10 ${color} ${borderColor} rounded-md shrink-0
                             hover:cursor-pointer shadow-md`}>
                         </div>
                     );
