@@ -3,7 +3,6 @@ import Emoji from '../emoji.component';
 import capitalizeFirstLetter from '../../services/capitalize.service';
 import CategoryService from './services/category.service';
 import AmountForm from './form/amount-form.component';
-import { formatWihoutSymbol } from '../../services/currency-formatter';
 
 const Category = ({ category, remove, update }) => {
     const [edit, setEdit] = useState(false);

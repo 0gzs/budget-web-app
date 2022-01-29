@@ -11,13 +11,12 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post((req, res) => {
-    const { name, balance, type } = req.body;
-    const user = "61df6b800b7ab5b94fbb4497";
+    const { name, balance, type, user } = req.body;
 
     const account = new Account({ name, balance, type, user });
 
     account.save()
-        .then(() => res.json(account))
+        .then(account => res.json(account))
         .catch(err => res.status(400).json("Error: " + err));
 });
 

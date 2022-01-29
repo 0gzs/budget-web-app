@@ -11,14 +11,19 @@ const useAccounts = () => {
 
     useEffect(() => !accounts && getAll());
     useEffect(() => {
-        let b = 0;
-        if (accounts) accounts.forEach(account => b += account.balance);
-        setBalance(b);
+        if (accounts) calculateBalance();
     }, [accounts]);
+
+    const calculateBalance = () => {
+        let b = 0;
+        accounts.forEach(account => b += account.balance);
+        setBalance(b);
+    }
 
     const store = data => {
         setAccounts([...data]); 
-        localStorage.setItem("accounts", JSON.stringify(data))
+        localStorage.setItem("accounts", JSON.stringify(data));
+        calculateBalance();
     };
 
     const getAll = async () => {
@@ -27,7 +32,7 @@ const useAccounts = () => {
             .catch(err => console.log(err));
     };
 
-    const handleAccounts = acc => setAccounts(acc);
+    const handleAccounts = acc => store(acc);
 
     return { accounts, handleAccounts, balance };
 }
