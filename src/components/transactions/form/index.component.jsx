@@ -1,10 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import AccountService from '../../accounts/services/account.service';
-import CategoryService from '../../categories/services/category.service';
-import TransactionService from '../services/transaction.service';
+import TransactionRequest from '../services/transaction-request.service';
 import TypeButton from './type-btn.component';
 
-const TransactionForm = ({ hideForm, addTransaction, update }) => {
+const TransactionForm = ({ hideForm, updateState, handleAccounts, handleCategories }) => {
     const categories = JSON.parse(localStorage.getItem("categories"));
     const accounts = JSON.parse(localStorage.getItem("accounts"));
     
@@ -35,22 +33,6 @@ const TransactionForm = ({ hideForm, addTransaction, update }) => {
         setTransaction({ ...transaction, type: transaction.type === 0 ? 1 : 0 });
         setTypeColor(typeColor === typeClasses.red ? typeClasses.green : typeClasses.red);
         setAmountColor(typeColor === amountClasses.red ? amountClasses.green : amountClasses.red);
-    };
-
-    const saveTransaction = async () => {
-        await TransactionService.create(transaction)
-            .then(res => addTransaction(res.data))
-            .then(() => {
-                AccountService.transaction(transaction.account, transaction.amount)
-                    .then(res => update("accounts", res.data, transaction.amount))
-                    .catch(err => alert(err))
-            })
-            .then(() => 
-                CategoryService.transaction(transaction.category, transaction.amount)
-                    .then(res => update("categories", res.data, transaction.amount)))
-                    .catch(err => console.log(err))
-            .catch(err => console.log(err));
-        hideForm();
     };
 
     return (
@@ -125,7 +107,7 @@ const TransactionForm = ({ hideForm, addTransaction, update }) => {
                     className='w-1/3 text-white rounded-sm 
                                    text-lg px-3 py-2 bg-carbonlight 
                                    uppercase font-huge hover:bg-darkred'>Nvm.</button>
-                <button onClick={saveTransaction}
+                <button onClick={() => TransactionRequest.saveTransaction(transaction, updateState, handleAccounts, handleCategories)}
                     className='w-2/3 text-white rounded-sm 
                                    text-lg px-3 py-2 bg-moneygreen 
                                    uppercase font-huge'>Take My 💸</button>

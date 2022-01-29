@@ -26,14 +26,11 @@ router.route("/:id").get((req, res) => {
 });
 
 router.route("/:id").put(async (req, res) => {
-    const account = await Account.findByIdAndUpdate({ _id: req.params.id })
-    for (let [key, val] of Object.entries(req.body)) {
-        transaction[key] = val;
-    };
-
-    account.save()
-        .then(() => res.json(account))
-        .catch(err => res.status(400).json("Error: " + err));
+    if (req.body.field === "balance") req.body.data =  parseFloat(req.body.data);
+    Account.findOneAndUpdate({ _id: req.params.id },
+        { $set: { [req.body.field]: req.body.data } })
+        .then(account => res.json(account))
+        .catch(err => res.status(400).json("Errors: " + err));
 });
 
 router.route("/:id/transaction").put(async (req, res) => {

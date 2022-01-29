@@ -22,7 +22,7 @@ const Dash = () => {
                 <Accounts 
                     accounts={accounts} 
                     updateState={handleAccounts}
-                    updateTransactions={handleAccounts} />
+                    updateTransactions={handleTransactions} />
                 <Categories 
                     categories={categories} 
                     balance={balance}
@@ -32,8 +32,8 @@ const Dash = () => {
             <Transactions 
                 transactions={transactions}
                 updateState={handleTransactions}
-                updateCategory={handleCategories}
-                updateAccount={handleAccounts} />
+                handleCategories={handleCategories}
+                handleAccounts={handleAccounts} />
            </div>
         </div>
     );

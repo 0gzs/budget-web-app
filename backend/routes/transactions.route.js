@@ -10,10 +10,10 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post(async (req, res) => {
-    console.log(req.body)
     const { description, date, amount, type, category, account } = req.body;
+    console.log(req.body)
     const transaction = new Transaction({ description, date: Date.parse(date), amount, type, category, account });
-    console.log(transaction);
+
     transaction.save()
         .then(transaction => res.json(transaction))
         .catch(err => res.status(400).json("Error: " + err));

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
-import AccountService from '../services/account.service';
-import TransactionService from '../../transactions/services/transaction.service';
+import AccountRequest from '../services/account-request.service';
 
-const AccountForm = ({ hideForm, update, addTransaction }) => {
+const AccountForm = ({ hideForm, update, updateTransactions }) => {
     const [account, setAccount] = useState({
         name: "",
         balance: 0,
@@ -12,13 +11,6 @@ const AccountForm = ({ hideForm, update, addTransaction }) => {
     })
 
     const handleInputChange = (val, name) => setAccount({ ...account, [name]: val });
-
-    const saveAccount = async () => {
-        await AccountService.create(account)
-            .then(res => update(res.data))
-            .catch(err => console.log(err));
-        hideForm();
-    };
 
     return (
         <div className='p-4 bg-dark absolute bottom-10
@@ -65,10 +57,10 @@ const AccountForm = ({ hideForm, update, addTransaction }) => {
                     className='w-1/3 text-white rounded-md shadow-inner
                                    text-lg px-3 py-2 bg-carbonlight 
                                    uppercase font-huge hover:bg-darkred'>Nvm.</button>
-                <button onClick={saveAccount}
+                <button onClick={() => AccountRequest.saveAccount(account, update, hideForm, updateTransactions)}
                     className='w-2/3 text-white rounded-md shadow-inner
-                                   text-lg px-3 py-2 bg-moneygreen 
-                                   uppercase font-huge'>Go</button>
+                            text-lg px-3 py-2 bg-moneygreen 
+                    uppercase font-huge'>Go</button>
             </div>
         </div>
     );

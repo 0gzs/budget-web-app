@@ -1,18 +1,14 @@
 import React from 'react';
 import dollarUS from '../../services/currency-formatter';
-import AccountService from './services/account.service';
 import Emoji from '../emoji.component';
+import AccountRequest from './services/account-request.service';
 
-const Account = ({ account, remove }) => {
-    const deleteOne = async () => {
-        await AccountService.delete(account._id)
-            .then(() => remove(account._id))
-            .catch(err => console.log(err));
-    };
+const Account = ({ account, updateState }) => {
+ 
 
     const ExitBtn = () => {
         return (
-            <div onClick={deleteOne}
+            <div onClick={() => AccountRequest.deleteOne(account._id, updateState)}
                 className='w-6 h-6 bg-gray-600 rounded-md 
                             absolute right-[-10px] top-[-10px]
                             flex items-center justify-center text-sm pt-[3px] hover:cursor-pointer 

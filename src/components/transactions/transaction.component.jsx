@@ -1,34 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import dollarUS from '../../services/currency-formatter';
 import dateFormatter from '../../services/date-formatter';
-import TransactionService from './services/transaction.service';
-import AccountService from '../accounts/services/account.service';
-import CategoryService from '../categories/services/category.service';
+import TransactionRequest from './services/transaction-request.service';
 
-const Transaction = ({ transaction, update, updateState }) => {    
-    const [categoryColor, setCategoryColor] = useState(null);
+const Transaction = ({ transaction, updateState, handleAccounts, handleCategories }) => {    
     let categories = JSON.parse(localStorage.getItem("categories"));
 
-    useEffect(() => {
+    const categoryColor = () => {
+        if (!categories) return null;
         let category = categories.filter(c => c._id === transaction.category)[0];
-        setCategoryColor(category.color);
-    }, [setCategoryColor, categories, transaction.category]);
+        if (category) return category.color;
+
+        return "border-2 border-moneygreen"
+    };
 
     const amountColor = () => {
         if (transaction.type === 0) return "text-red-500";
         return "text-moneygreen"
-    };
-
-    const deleteOne = () => {
-        TransactionService.delete(transaction._id)
-            .then(() => updateState(transaction._id))
-            .then(() => AccountService.transactionDelete(transaction.account, transaction.amount)
-                .then(res => update("accountsReturn", res._id, transaction.amount))
-                .catch(err => console.log(err)))
-            .then(() => CategoryService.transactionDelete(transaction.category, transaction.amount)
-                .then(res => update("categoryReturn", res._id, transaction.amount))
-                .catch(err => console.log(err)))
-            .catch(err => console.log(err));
     };
 
     return (
@@ -36,9 +24,9 @@ const Transaction = ({ transaction, update, updateState }) => {
                         rounded-md font-source
                         flex items-center bg-carbon
                         shadow-inner'>
-            <div onClick={deleteOne}
+            <div onClick={() => TransactionRequest.deleteTransaction(transaction, updateState, handleAccounts, handleCategories)}
                 className={`text-xl p-2.5 mx-3 rounded-sm 
-                            hover:cursor-pointer ${categoryColor}`}>
+                            hover:cursor-pointer ${categoryColor()}`}>
                 
             </div>
             <div className='text-left flex-1'>

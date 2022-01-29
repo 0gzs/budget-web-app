@@ -13,6 +13,10 @@ const AccountService = {
         return http.post("/api/v1/accounts/add", data);
     },
 
+    update: (id, data, field) => {
+        return http.put("/api/v1/categories/" + id, { data, field })
+    },
+
     delete: id => {
         return http.delete("/api/v1/accounts/" + id);
     },
