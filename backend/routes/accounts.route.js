@@ -13,8 +13,7 @@ router.route("/").get((req, res) => {
 router.route("/add").post((req, res) => {
     const { name, balance, type, user } = req.body;
 
-    const account = new Account({ name, balance, type, user });
-
+    const account = new Account({ name, balance: parseFloat(balance), type, user });
     account.save()
         .then(account => res.json(account))
         .catch(err => res.status(400).json("Error: " + err));

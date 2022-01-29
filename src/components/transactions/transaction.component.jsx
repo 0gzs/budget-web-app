@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import dollarUS from '../../services/currency-formatter';
 import dateFormatter from '../../services/date-formatter';
 import TransactionService from './services/transaction.service';
@@ -6,6 +6,14 @@ import AccountService from '../accounts/services/account.service';
 import CategoryService from '../categories/services/category.service';
 
 const Transaction = ({ transaction, update, updateState }) => {    
+    const [categoryColor, setCategoryColor] = useState(null);
+    let categories = JSON.parse(localStorage.getItem("categories"));
+
+    useEffect(() => {
+        let category = categories.filter(c => c._id === transaction.category)[0];
+        setCategoryColor(category.color);
+    }, [setCategoryColor, categories, transaction.category]);
+
     const amountColor = () => {
         if (transaction.type === 0) return "text-red-500";
         return "text-moneygreen"
@@ -28,8 +36,11 @@ const Transaction = ({ transaction, update, updateState }) => {
                         rounded-md font-source
                         flex items-center bg-carbon
                         shadow-inner'>
-            <i onClick={deleteOne}
-                className="text-xl bi bi-square px-3 hover:cursor-pointer"></i>
+            <div onClick={deleteOne}
+                className={`text-xl p-2.5 mx-3 rounded-sm 
+                            hover:cursor-pointer ${categoryColor}`}>
+                
+            </div>
             <div className='text-left flex-1'>
                 <p className='text-md  font-big uppercase'>{transaction.description}</p>
                 <p className='text-md text-cyan-400 font-big'>{dateFormatter(transaction.date)}</p>

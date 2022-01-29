@@ -21,7 +21,8 @@ const Dash = () => {
                             space-y-3 w-fit'>
                 <Accounts 
                     accounts={accounts} 
-                    updateState={handleAccounts} />
+                    updateState={handleAccounts}
+                    updateTransactions={handleAccounts} />
                 <Categories 
                     categories={categories} 
                     balance={balance}

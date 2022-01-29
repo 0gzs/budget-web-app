@@ -1,7 +1,5 @@
 import express from 'express';
 import Transaction from '../models/transaction.model.js';
-import Category from '../models/category.model.js';
-import Account from '../models/account.model.js';
 
 const router = express.Router();
 
@@ -12,9 +10,10 @@ router.route("/").get((req, res) => {
 });
 
 router.route("/add").post(async (req, res) => {
+    console.log(req.body)
     const { description, date, amount, type, category, account } = req.body;
     const transaction = new Transaction({ description, date: Date.parse(date), amount, type, category, account });
-
+    console.log(transaction);
     transaction.save()
         .then(transaction => res.json(transaction))
         .catch(err => res.status(400).json("Error: " + err));

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 import AccountService from '../services/account.service';
+import TransactionService from '../../transactions/services/transaction.service';
 
-const AccountForm = ({ hideForm, update }) => {
+const AccountForm = ({ hideForm, update, addTransaction }) => {
     const [account, setAccount] = useState({
         name: "",
         balance: 0,
