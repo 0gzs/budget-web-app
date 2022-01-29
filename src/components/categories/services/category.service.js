@@ -23,6 +23,10 @@ const CategoryService = {
 
     transaction: (id, amount) => {
         return http.put(`/api/v1/categories/${id}/transaction`, { amount: amount });
+    },
+
+    transactionDelete: (id, amount) => {
+        return http.put(`/api/v1/categories/${id}/transaction/delete`, { amount: amount});
     }
 };
 

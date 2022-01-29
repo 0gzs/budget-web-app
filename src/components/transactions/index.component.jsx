@@ -22,13 +22,34 @@ const Transactions = ({ transactions, updateState, updateCategory, updateAccount
         if (component === "accounts") {
             state = accounts.map(account => {
                 if (account._id === id) {
-                    account.balance -= parseInt(amount)
+                    account.balance -= amount
                     return account;
                 } 
                 return account;
             })
             updateAccount(state);
             return;
+        }
+        if (component === "accountsReturn") {
+            state = accounts.map(account => {
+                if (account._id === id) {
+                    account.balance += amount
+                    return account;
+                } 
+                return account;
+            })
+            updateAccount(state);
+            return;
+        }
+
+        if (component === "categoryReturn") {
+            state = categories.map(category => {
+                if (category._id === id) {
+                    category._id += amount;
+                    return category;
+                }
+                return category;
+            })
         }
 
         state = categories.map(category => {
@@ -58,7 +79,7 @@ const Transactions = ({ transactions, updateState, updateCategory, updateAccount
                             rounded-md'>
                 {transactions && transactions.map((transaction, i) => {
                     return (
-                        <Transaction transaction={transaction} updateState={deleteTransaction} key={i} />
+                        <Transaction transaction={transaction} updateState={deleteTransaction} update={update} key={i} />
                     );
                 })}
 

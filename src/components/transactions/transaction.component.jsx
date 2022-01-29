@@ -2,8 +2,10 @@ import React from 'react';
 import dollarUS from '../../services/currency-formatter';
 import dateFormatter from '../../services/date-formatter';
 import TransactionService from './services/transaction.service';
+import AccountService from '../accounts/services/account.service';
+import CategoryService from '../categories/services/category.service';
 
-const Transaction = ({ transaction, updateState }) => {    
+const Transaction = ({ transaction, update, updateState }) => {    
     const amountColor = () => {
         if (transaction.type === 0) return "text-red-500";
         return "text-moneygreen"
@@ -12,6 +14,12 @@ const Transaction = ({ transaction, updateState }) => {
     const deleteOne = () => {
         TransactionService.delete(transaction._id)
             .then(() => updateState(transaction._id))
+            .then(() => AccountService.transactionDelete(transaction.account, transaction.amount)
+                .then(res => update("accountsReturn", res._id, transaction.amount))
+                .catch(err => console.log(err)))
+            .then(() => CategoryService.transactionDelete(transaction.category, transaction.amount)
+                .then(res => update("categoryReturn", res._id, transaction.amount))
+                .catch(err => console.log(err)))
             .catch(err => console.log(err));
     };
 

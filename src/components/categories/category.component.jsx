@@ -39,7 +39,7 @@ const Category = ({ category, remove, update }) => {
                     {!edit ? 
                     <p onClick={showForm} className='font-huge text-xl text-yellow hover:cursor-pointer'>
                         <span className='text-moneygreen'>$</span>
-                        {formatWihoutSymbol(category.amount)}
+                        {category.amount}
                     </p> :
                     <AmountForm id={category._id} amount={category.amount} update={update} hideForm={hideForm} />}
                 </div>

@@ -19,6 +19,10 @@ const AccountService = {
 
     transaction: (id, amount) => {
         return http.put(`/api/v1/accounts/${id}/transaction`, { amount: amount});
+    },
+
+    transactionDelete: (id, amount) => {
+        return http.put(`/api/v1/accounts/${id}/transaction/delete`, { amount: amount});
     }
 };
 
