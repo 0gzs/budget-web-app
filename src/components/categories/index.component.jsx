@@ -67,7 +67,7 @@ const Categories = ({ categories, balance, updateState }) => {
             <p className='text-sm font-huge 
                           tracking-widest uppercase
                           text-right text-yellow'>
-                Available amount: 
+                Available to budget: 
                 <span className='text-moneygreen font-block font ml-2'>{ dollarUs.format(available)}</span>
             </p>
         </div>

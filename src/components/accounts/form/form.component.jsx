@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import CurrencyInput from 'react-currency-input-field';
 import AccountService from '../services/account.service';
 
-const AccountForm = ({ hideForm, updateState }) => {
+const AccountForm = ({ hideForm, update }) => {
     const [account, setAccount] = useState({
         name: "",
         balance: 0,
@@ -14,7 +14,7 @@ const AccountForm = ({ hideForm, updateState }) => {
 
     const saveAccount = async () => {
         await AccountService.create(account)
-            .then(res => updateState(res.data))
+            .then(res => update(res.data))
             .catch(err => console.log(err));
         hideForm();
     };
@@ -22,7 +22,7 @@ const AccountForm = ({ hideForm, updateState }) => {
     return (
         <div className='p-4 bg-dark absolute bottom-10
                         left-10 right-10 flex flex-col
-                        space-y-3'>
+                        space-y-3 z-10'>
             <h1 className='text-2xl font-source font-huge uppercase tracking-wide text-center'>Add an account</h1>
             <input 
                 type="text"

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import AccountService from '../components/accounts/services/account.service';
 
 const useAccounts = () => {
@@ -10,15 +10,17 @@ const useAccounts = () => {
     const [balance, setBalance] = useState(0);
 
     useEffect(() => !accounts && getAll());
-    useEffect(() => {
-        if (accounts) calculateBalance();
-    }, [accounts]);
 
-    const calculateBalance = () => {
+    const calculateBalance = useCallback(() => {
+        if (!accounts) return;
         let b = 0;
         accounts.forEach(account => b += account.balance);
         setBalance(b);
-    }
+    }, [accounts, setBalance])
+
+    useEffect(() => {
+        if (accounts) calculateBalance();
+    }, [accounts, calculateBalance]);
 
     const store = data => {
         setAccounts([...data]); 

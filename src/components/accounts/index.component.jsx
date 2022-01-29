@@ -16,7 +16,7 @@ const Accounts = ({ accounts, updateState }) => {
 
     return (
         <div className='card'>
-            { show && <AccountForm hideForm={hideForm} /> }
+            { show && <AccountForm hideForm={hideForm} update={updateState} /> }
             <h1 className='card-title'>Accounts </h1>   
             <div className='w-full flex p-3 space-y-1 overflow-x-auto
                           bg-carbonlight rounded-lg flex-col max-h-32'>
