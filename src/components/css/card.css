@@ -1,25 +1,31 @@
 .card {
     @apply w-[350px] py-6 flex
     rounded-lg shadow-md px-4 
-    flex-col space-y-4 font-source bg-carbon
+    flex-col space-y-4 bg-carbon
     text-white;
 }
 
 .card-title {
-    @apply text-2xl uppercase
+    @apply text-xl uppercase
     font-huge text-center tracking-widest
     bg-dark/50 py-3 px-4 rounded-md w-fit
-    m-auto;
+    m-auto font-source;
 }
 
 .card-btn {
     @apply w-full rounded-lg
     shrink-0 shadow-md
-    hover:shadow-lg bg-carbonlight 
-    hover:bg-cyan-500 font-huge 
-    text-center uppercase text-xl 
+    hover:shadow-lg bg-cyan-500 
+    hover:bg-cyan-600  
+    text-center uppercase
     flex items-center justify-center
-    p-2;
+    py-3 font-source font-huge;
+}
+
+.card-label {
+    @apply w-fit p-2 text-sm bg-carbonlight
+    font-source font-huge uppercase rounded-md
+    hover:cursor-pointer;
 }
 
 .card-icon {
@@ -27,6 +33,18 @@
 }
 
 @screen sm {
+    .card {
+        @apply w-[400px] px-8;
+    }
+}
+
+@screen md {
+    .card-label {
+        @apply bg-dark;
+    }
+}
+
+@screen lg {
     .card {
         @apply w-[500px] px-8;
     }

@@ -1,66 +1,96 @@
-import React, { useState } from 'react';
-import CurrencyInput from 'react-currency-input-field';
-import AccountRequest from '../services/account-request.service';
+import React from 'react';
+import useForm from '../../../hooks/useForm.hook';
 
-const AccountForm = ({ hideForm, update, updateTransactions }) => {
-    const [account, setAccount] = useState({
+const AccountForm = ({ hideForm, submit }) => {
+    const initialState = {
         name: "",
-        balance: 0,
+        balance: "",
         type: "",
         user: localStorage.getItem("userId")
-    })
+    };
+    const validations = [
+        ({ name }) => isRequired(name) || { name: 'An account name is required' },
+        ({ balance }) => isANumber(balance) || { balance: 'Choose a numeric amount' },
+        ({ type }) => isRequired(type) || { type: 'Savings or checking?' },
+    ]
+    const { values, changeHandler, errors, touched, submitHandler } = useForm(initialState, validations, submit);
 
-    const handleInputChange = (val, name) => setAccount({ ...account, [name]: val });
+    function isRequired(value) {
+        return value !== null && value.trim().length > 0;
+    }
+
+    function isANumber(value) {
+        return !isNaN(value) && !value !== null && value.trim().length > 0;
+    }
 
     return (
-        <div className='p-4 bg-dark absolute bottom-10
-                        left-10 right-10 flex flex-col
-                        space-y-3 z-10'>
-            <h1 className='text-2xl font-source font-huge uppercase tracking-wide text-center'>Add an account</h1>
-            <input 
-                type="text"
-                value={account.name}
-                placeholder="ex. '🐷 Bank'" 
-                className='bg-carbonlight px-3 py-2
-                rounded-md tracking-widest
-                focus:outline-none                        
-                font-huge w-full'
-                onChange={e => handleInputChange(e.target.value, "name")}/>
+        <div className='modal'>
+            <div className='form'>
+                <h1 className='form-title mb-2'>Add an account</h1>
+                <div className='form-group w-full'>
+                    <label className='form-label'>Account name</label>
+                    <input 
+                        type="text"
+                        name="name"
+                        value={values.name}
+                        placeholder="ex. '🐷 Bank'" 
+                        className='form-input'
+                        onChange={changeHandler} />
+                    <div className='my-1 w-full'>
+                        {(touched.name && errors.name) || touched.empty ? 
+                            <p className='error'>{errors.name}</p> :
+                            <p className='error opacity-0'>none</p>}
+                    </div>
+                </div>
 
-            <div className='flex space-x-2'>
-                <CurrencyInput
-                    className='bg-carbonlight px-3 py-2
-                    rounded-md uppercase tracking-widest
-                    focus:outline-none                        
-                    font-huge w-1/3'
-                    placeholder="0"
-                    defaultValue={account.balance}
-                    decimalsLimit={2}  
-                    onChange={e => handleInputChange(e.target.value, "balance")} />
-                <select 
-                    className='bg-carbonlight px-3 py-2
-                    rounded-md uppercase font-big
-                    tracking-widest w-2/3 focus:outline-none' 
-                    value={account.type}
-                    onChange={e => handleInputChange(e.target.value, "type")} >
-                    <option>-Type-</option>
-                    <option className='text-white font-medium font-sans' 
-                        value={0}
-                        onChange={e => handleInputChange(e.target.value, "type")}> Checking </option>
-                    <option className='text-white font-medium font-sans' 
-                        value={1}
-                        onChange={e => handleInputChange(e.target.value, "type")}> Savings </option>
-                </select>
-            </div>
-            <div className='w-full flex space-x-2 font-sans'>
-                <button onClick={hideForm}
-                    className='w-1/3 text-white rounded-md shadow-inner
-                                   text-lg px-3 py-2 bg-carbonlight 
-                                   uppercase font-huge hover:bg-darkred'>Nvm.</button>
-                <button onClick={() => AccountRequest.saveAccount(account, update, hideForm, updateTransactions)}
-                    className='w-2/3 text-white rounded-md shadow-inner
-                            text-lg px-3 py-2 bg-moneygreen 
-                    uppercase font-huge'>Go</button>
+                <div className='flex space-x-4 items-center w-full'>
+                    <div className='form-group w-1/2'>
+                        <label className='form-label'>Starting Balance</label>
+                        <input
+                            type="text"
+                            name="balance"
+                            className='form-input'
+                            placeholder={`$0.00`}
+                            value={values.balance}
+                            onChange={changeHandler} />
+                        <div className='my-1 w-full'>
+                            {(touched.balance && errors.balance) || touched.empty ? 
+                                <p className='error'>{errors.balance}</p> :
+                                <p className='error opacity-0'>none</p>}
+                        </div>
+                    </div>
+
+                    <div className='form-group w-1/2'>
+                        <label className='form-label'>Account type</label>
+                        <select 
+                            className='form-input' 
+                            name="type"
+                            value={values.type}
+                            placeholder='-Type-'
+                            onChange={changeHandler} >
+                            <option value={null}></option>
+                            <option className='font-medium font-sans' 
+                                value={0}
+                                onChange={changeHandler}> Checking </option>
+                            <option className='font-medium font-sans' 
+                                value={1}
+                                onChange={changeHandler}> Savings </option>
+                        </select>
+                        <div className='my-1 w-full'>
+                            {(touched.type && errors.type) || touched.empty ? 
+                                <p className='error'>{errors.type}</p> :
+                                <p className='error opacity-0'>none</p>}
+                        </div>
+                    </div>
+
+                </div>
+                <div className='form-btn-group'>
+                    <button onClick={hideForm}
+                        className='form-btn btn-cancel'>Nvm.</button>
+
+                    <button onClick={submitHandler}
+                        className='form-btn btn-submit'>Submit 👍</button>
+                </div>
             </div>
         </div>
     );

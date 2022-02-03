@@ -10,10 +10,14 @@ router.route("/").get((req, res) => {
         .catch(err => res.status(400).json("Error: " + err));
 });
 
-router.route("/add").post((req, res) => {
-    const { name, balance, type, user } = req.body;
-
-    const account = new Account({ name, balance: parseFloat(balance), type, user });
+router.route("/create").post((req, res) => {
+    const account = new Account({
+        name: req.body.name,
+        balance: req.body.balance,
+        type: req.body.type,
+        user: req.body.user
+    });
+    
     account.save()
         .then(account => res.json(account))
         .catch(err => res.status(400).json("Error: " + err));
@@ -26,23 +30,29 @@ router.route("/:id").get((req, res) => {
 });
 
 router.route("/:id").put(async (req, res) => {
-    if (req.body.field === "balance") req.body.data =  parseFloat(req.body.data);
     Account.findOneAndUpdate({ _id: req.params.id },
-        { $set: { [req.body.field]: req.body.data } })
+        { $set: { [req.body.field]: parseFloat(req.body.data) } })
         .then(account => res.json(account))
         .catch(err => res.status(400).json("Errors: " + err));
 });
 
+router.route("/:id/update/transaction").put(async (req, res) => {
+    Account.updateOne({ _id: req.params.id },
+        { $push: { transactions: req.body.transactionId } })
+        .then(account => res.json(account))
+        .catch(err => console.log(err));
+})
+
 router.route("/:id/transaction").put(async (req, res) => {
-    Account.findByIdAndUpdate({ _id: req.params.id },
-        { $inc: { balance: -req.body.amount } })
+   Account.findByIdAndUpdate({ _id: req.params.id },
+        { $inc: { balance: parseFloat(-req.body.amount)}})
         .then(account => res.json(account._id))
         .catch(err => res.status(400).json("Error: " + err));
 });
 
 router.route("/:id/transaction/delete").put(async (req, res) => {
     Account.findByIdAndUpdate({ _id: req.params.id },
-        { $inc: { balance: req.body.amount }})
+        { $inc: { balance: parseFloat(req.body.amount) }})
         .then(account => res.json(account._id))
         .catch(err => res.status(400).json("Error: " + err));
 });

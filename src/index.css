@@ -3,6 +3,7 @@
 @tailwind base;
 @tailwind components;
 @import url('./components/css/card.css');
+@import url('./components/css/form.css');
 @tailwind utilities;
 
 

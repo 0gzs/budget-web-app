@@ -4,8 +4,8 @@ const TypeButton = ({ typeColor, handle }) => {
     return (
         <div 
             onClick={handle}
-            className={`flex px-[0.250rem] 
-                         py-[0.175rem] w-[80px] rounded-lg 
+            className={`flex px-[0.250rem]
+                         py-[0.175rem] h-full rounded-lg 
                          hover:cursor-pointer ${typeColor}`} >
                     
             <button className="w-1/2 rounded-md bg-white"></button>

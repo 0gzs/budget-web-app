@@ -6,7 +6,8 @@ const accountSchema = new Scheme({
     balance: { type: Number, required: true },
     type: { type: String, required: true },
     createdAt: { type: Date, default: new Date },
-    user: { type: String, required: true }
+    user: { type: String, required: true },
+    transactions: { type : Array , "default" : [] }
 }, { timeseries: true });
 
 const Account = mongoose.model("Account", accountSchema);

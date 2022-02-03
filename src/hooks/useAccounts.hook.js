@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import AccountService from '../components/accounts/services/account.service';
+import { getAllAccounts } from '../services/AccountService';
 
 const useAccounts = () => {
     const [accounts, setAccounts] = useState(() => {
@@ -8,8 +8,6 @@ const useAccounts = () => {
         return JSON.parse(storage) || null;
     });
     const [balance, setBalance] = useState(0);
-
-    useEffect(() => !accounts && getAll());
 
     const calculateBalance = useCallback(() => {
         if (!accounts) return;
@@ -22,21 +20,24 @@ const useAccounts = () => {
         if (accounts) calculateBalance();
     }, [accounts, calculateBalance]);
 
-    const store = data => {
-        setAccounts([...data]); 
-        localStorage.setItem("accounts", JSON.stringify(data));
-        calculateBalance();
+    const store = accounts => {
+        setAccounts([...accounts]); 
+        localStorage.setItem("accounts", JSON.stringify(accounts))
     };
 
-    const getAll = async () => {
-        await AccountService.getAll()
-            .then(res => store(res.data))
-            .catch(err => console.log(err));
-    };
+    useEffect(() => {
+        if (!accounts) getAccounts();
 
-    const handleAccounts = acc => store(acc);
+        async function getAccounts() {
+            const data = await getAllAccounts();
+            store(data);
+        }
+    }, [accounts]);
 
-    return { accounts, handleAccounts, balance };
+
+    const handleAccounts = data => store(data);
+
+    return { accounts, balance, handleAccounts};
 }
 
 export default useAccounts;

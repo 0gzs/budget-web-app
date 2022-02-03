@@ -1,33 +1,31 @@
 import React, { useState } from 'react';
-import CategoryService from '../services/category.service';
 
-const AmountForm = ({ id, amount, update, hideForm }) => {
-    const [newAmount, setNewAmount] = useState(amount);
-
-    const editCategory = async () => {
-        const formatted = parseFloat(newAmount)
-        await CategoryService.update(id, formatted, "amount")
-            .then(() => update(id, formatted))
-            .catch(err => console.log(err));
-        hideForm();
-    };
-
+const AmountForm = ({ category, hideForm, updateAmount }) => {
+    const [newAmount, setNewAmount] = useState(category.amount);
+     
     return (
-        <div className='w-fit flex flex-col'>
-            <input 
-                className='appearance-none bg-dark text-white w-1/2
-                           font-huge text-lg focus:outline-none'
-                type="number"
-                value={newAmount}
-                onChange={e => setNewAmount(e.target.value)}
-                placeholder='$0.00' />
-            <div className='flex space-x-1'>
+        <div className='w-fit flex flex-col h-full justify-around'>
+            <input
+                type="text"
+                className='bg-dark text-white w-1/2
+                rounded-md text-xl focus:outline-none font-huge'
+                prefix='$'
+                placeholder={`${newAmount}`}
+                value={newAmount === 0 ? "" : newAmount}
+                onChange={e => setNewAmount(e.target.value)} />
+            <div className='flex space-x-1 items-center'>
                 <button onClick={hideForm}
-                    className='px-2 text-md bg-red-500 font-big text-white'>
+                    className='flex-1 px-2 py-1 text-sm rounded-sm bg-red-500 font-semibold text-white'>
                     Cancel
                 </button>
-                <button onClick={editCategory}
-                    className='px-1 text-md bg-moneygreen font-big text-white'>
+                <button onClick={() => {
+                    if (!newAmount) {
+                        updateAmount(0);
+                        hideForm();
+                    };
+                    updateAmount(newAmount)
+                }}
+                    className='flex-1 px-2 py-1 text-sm rounded-sm bg-moneygreen font-semibold text-white'>
                     Submit
                 </button>
             </div>

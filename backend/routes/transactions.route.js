@@ -9,11 +9,16 @@ router.route("/").get((req, res) => {
         .catch(err => res.status(400).json("Error: " + err));
 });
 
-router.route("/add").post(async (req, res) => {
-    const { description, date, amount, type, category, account } = req.body;
-    console.log(req.body)
-    const transaction = new Transaction({ description, date: Date.parse(date), amount, type, category, account });
-
+router.route("/create").post(async (req, res) => {
+    const transaction = new Transaction({ 
+        description: req.body.description, 
+        date: Date.parse(req.body.date), 
+        amount: req.body.amount, 
+        type: req.body.type, 
+        category: req.body.category, 
+        account: req.body.account
+    });
+    
     transaction.save()
         .then(transaction => res.json(transaction))
         .catch(err => res.status(400).json("Error: " + err));

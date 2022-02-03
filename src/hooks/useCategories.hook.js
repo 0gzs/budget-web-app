@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import CategoryService from "../components/categories/services/category.service";
+import { getAllCategories } from "../services/CategoryService";
 
 const useCategories = () => {
     const [categories, setCategories] = useState(() => {
@@ -7,19 +7,21 @@ const useCategories = () => {
         
         return JSON.parse(storage) || null;
     });
-
-    useEffect(() => !categories && getAll());
-
+    
     const store = data => {
+        if (!data) return setCategories(null);
         setCategories([...data]); 
         localStorage.setItem("categories", JSON.stringify(data))
     };
 
-    const getAll = () => {
-        CategoryService.getAll()
-            .then(res => store(res.data))
-            .catch(err => console.error(err))
-    };
+    useEffect(() => {
+        if (!categories) getCategories();
+
+        async function getCategories() {
+            const data = await getAllCategories();
+            store(data);
+        }
+    });
 
     const handleCategories = data => store(data);
 

@@ -15,15 +15,18 @@ const icons = [
 ];
 
 const backgroundColors = [
-    "bg-carbonlight",
-    "bg-carbonblue",
-    "bg-orange",
-    "bg-darkred",
-    "bg-lightpink",
+    "bg-moon",
+    "bg-redrock",
+    "bg-juniper",
     "bg-moneygreen",
     "bg-darkgreen",
-    "bg-darkteal",
-    "bg-yellow"
+    "bg-blackberry",
+    "bg-apricot",
+    "bg-yellow",
+    "bg-eucalyptus",
+    "bg-glossy",
+    "bg-firm",
+    "bg-emeraldgreen"
 ];
 
 export {

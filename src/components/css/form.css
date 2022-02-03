@@ -1,0 +1,59 @@
+.modal {
+    @apply w-screen h-screen bg-black/40
+    fixed top-0 left-0 right-0 bottom-0 z-20 flex justify-center
+    items-center;
+}
+
+.form {
+    @apply w-[350px] md:w-[425px] p-5 rounded-lg
+    items-center bg-carbon shadow-inner  
+    flex flex-col self-center focus:outline-none  
+    text-white uppercase;
+}
+
+.form-title {
+    @apply text-xl bg-dark py-4 px-6 rounded-md font-huge tracking-wide text-center;
+}
+
+.form-group {
+    @apply flex flex-col;
+}
+
+.form-label {
+    @apply font-source font-extrabold text-neutral-50 capitalize tracking-wider mb-1;
+}
+
+.form-input {
+    @apply bg-carbonlight px-4 py-2
+    rounded capitalize tracking-wider font-semibold
+    focus:outline-none;
+}
+
+.form-btn-group {
+    @apply w-full flex space-x-2;
+}
+
+.form-btn {
+    @apply rounded-md shadow-inner
+    text-lg px-3 py-2 bg-carbonlight 
+    uppercase font-huge;
+}
+
+.btn-cancel {
+    @apply w-1/3 hover:bg-red-500;
+}
+
+.btn-submit {
+    @apply w-2/3  bg-moneygreen;
+}
+
+.error {
+    @apply text-[12px] text-yellow text-left font-bold
+    w-full capitalize py-1 tracking-wider;
+}
+
+@screen sm {
+    .form {
+        @apply p-8;
+    }
+}

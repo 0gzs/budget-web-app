@@ -1,5 +1,8 @@
+import mongoose from 'mongoose';
 import express from 'express';
 import Category from '../models/category.model.js';
+
+const formatDecimal = mongoose.Types.Decimal128;
 
 const router = express.Router();
 
@@ -9,7 +12,7 @@ router.route("/").get((req, res) => {
         .catch(err => res.status(400).json("Error: " + err));
 });
 
-router.route("/add").post((req, res) => {
+router.route("/create").post((req, res) => {
     const { name, icon, color } = req.body;
     const user = "61df6b800b7ab5b94fbb4497";
     
@@ -21,23 +24,24 @@ router.route("/add").post((req, res) => {
 });
 
 router.route("/:id").put(async (req, res) => {
-    if (req.body.field === "amount") req.body.data = parseFloat(req.body.data)
+    const { data, field } = req.body;
+    
     Category.findByIdAndUpdate({ _id: req.params.id },
-        { $set: { [req.body.field]: req.body.data } })
+        { $set: { [field]:  data } })
         .then(category => res.json(category))
         .catch(err => res.status(400).json("Error: " + err));
 });
 
 router.route("/:id/transaction").put(async (req, res) => {
     Category.findByIdAndUpdate({ _id: req.params.id }, 
-        { $inc: { amount: -req.body.amount } })
+        { $inc: { amount: parseFloat(-req.body.amount) } })
         .then(category => res.json(category._id))
         .catch(err => res.status(400).json("Error: " + err))
 });
 
 router.route("/:id/transaction/delete").put(async (req, res) => {
     Category.findByIdAndUpdate({ _id: req.params.id },
-        { $inc: { amount: req.body.amount }})
+        { $inc: { amount: parseFloat(req.body.amount) }})
         .then(category => res.json(category._id))
         .catch(err => res.status(400).json("Error: " + err));
 });
