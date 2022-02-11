@@ -14,7 +14,7 @@ export async function getAllCategories() {
 
 export async function createCategory(category) {
     try {
-        const response = await http.post("/api/v1/categories/create", category);
+        const response = await http.post("/api/v1/categories", category);
         const { data } = response;
 
         let state = JSON.parse(localStorage.getItem("categories"));
@@ -43,7 +43,7 @@ export async function deleteCategory(id) {
 
 export async function addCategoryTransaction(transaction) {
     try {
-        await http.put(`/api/v1/categories/${transaction.category}/transaction`, { amount: transaction.amount });
+        await http.put(`/api/v1/categories/${transaction.category}/dec/amount`, { amount: transaction.amount });
 
         let state = JSON.parse(localStorage.getItem("categories"));
         state = state.map(category => {

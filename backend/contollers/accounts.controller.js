@@ -34,7 +34,7 @@ export const getAccount = (req, res) => {
     .catch(err => res.status(400).json("Error: " + err));
 }
 
-// @desc    Set account
+// @desc    Update account
 // @route   PUT /api/v1/accounts/:id
 // @access  Private
 export const updateAccount = (req, res) => {
