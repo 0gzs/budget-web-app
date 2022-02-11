@@ -8,7 +8,7 @@ import {
     incrementAccountBalance, 
     setAccounts, 
     updateAccount 
-} from '../contollers/accounts.controller.js';
+} from '../controllers/accounts.controller.js';
 
 const router = express.Router();
 

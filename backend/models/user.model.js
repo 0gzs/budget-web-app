@@ -9,7 +9,9 @@ const userSchema = new Schema({
         trim: true,
         minlength: 3
     },
-    account: { type: String }
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    account: { type: mongoose.Schema.Types.ObjectId, ref: 'Account' }
 }, { timeseries: true });
 
 const User = mongoose.model("User", userSchema);
