@@ -1,88 +1,130 @@
-import Account from "../models/account.model"
+import asyncHandler from 'express-async-handler';
+import Account from '../models/account.model.js';
 
 // @desc    Get accounts
 // @route   GET /api/v1/accounts
 // @access  Private
-export const getAccounts = (req, res) => {
-    Account.find()
-        .then(accounts => res.json(accounts))
-        .catch(err => res.status(400).json("Error: " + err));
-}
+export const getAccounts = asyncHandler(async (req, res) => {
+  const accounts = await Account.find({ user: req.body.userId });
+  
+  res.status(200).json(accounts);
+})
 
 // @desc    Set account
 // @route   POST /api/v1/accounts
 // @access  Private
-export const setAccounts = (req, res) => {
-  const account = new Account({
+export const setAccounts = asyncHandler(async (req, res) => {
+  if (!req.body.name  && !req.body.balance && !req.body.type && !req.body.user) {
+    res.status(400);
+    throw new Error("Please add all required fields");
+  }
+
+  const account = await Account.create({
     name: req.body.name,
-    balance: req.body.balance, 
+    balance: req.body.balance,
     type: req.body.type,
     user: req.body.user
   });
 
-  account.save()
-    .then(account => res.json(account))
-    .catch(err => res.status(400).json("Error: " + err));
-}
+  res.status(200).json(account);
+})
 
 // @desc    Get account
 // @route   GET /api/v1/accounts/:id
 // @access  Private
-export const getAccount = (req, res) => {
-  Account.find({user: req.params.id})
-    .then(accounts => res.json(accounts))
-    .catch(err => res.status(400).json("Error: " + err));
+export const getOneAccount = async (req, res) => {
+  const account = await Account.findById(req.params.id);
+
+  if (!account) {
+    res.status(400);
+    throw new Error("Account not found");
+  }
+  
+  res.status(200).json(account);
 }
 
 // @desc    Update account
 // @route   PUT /api/v1/accounts/:id
 // @access  Private
-export const updateAccount = (req, res) => {
-  Account.findOneAndUpdate({ _id: req.params.id}, 
-    { $set: {[req.body.fied]: parseFloat(req.body.data)} })
-    .then(account => res.json(account))
-    .catch(err => res.status(400).json("Error: " + err));
-}
+export const updateAccount = asyncHandler(async (req, res) => {
+  const account = await Account.findById(req.params.id);
+
+  if (!account) {
+    res.status(400);
+    throw new Error("Account not found");
+  }
+
+  const updatedAccount = await Account.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+
+  res.status(200).json(updatedAccount);
+})
 
 // @desc    Add account transaction
 // @route   Put /api/v1/accounts/:id/add/transaction
 // @access  Private
-export const addNewAccountTransaction = (req, res) => {
-  Account.updateOne({_id: req.params.id},
-    { $push: { transactions: req.body.transactionId } })
-    .then(account => res.json(account))
-    .catch(err => console.log(err));
-}
+export const addTransaction = asyncHandler(async (req, res) => {
+  const account = await Account.findById(req.params.id);
+
+  if (!account) {
+    res.status(400);
+    throw new Error("Account not found");
+  }
+  
+  await account.transactions.push(req.body.transactionId);
+  await account.save();
+  
+  res.status(200).json(account);
+})
 
 // @desc    Update (+) account balance
 // @route   PUT /api/v1/accounts/:id/inc/balance
 // @access  Private
-export const incrementAccountBalance = (req, res) => {
-  Account.findByIdAndUpdate({_id: req.params.id},
-    { $inc: { balance: parseFloat(req.body.amount) } })
-    .then(account => res.json(account._id))
-    .catch(err => res.status(400).json("Error: " + err));
-}
+export const incrementAccountBalance = asyncHandler(async (req, res) => {
+  const account = await Account.findById(req.params.id);
+
+  if (!account) {
+    res.status(400);
+    throw new Error("Account not found");
+  }
+
+  account.balance += parseFloat(req.body.amount);
+  await account.save();
+  
+  res.status(200).json(account);
+})
 
 // @desc    Update (-) account balance
 // @route   PUT /api/v1/accounts/:id/dec/balance
 // @access  Private
-export const decrementAccountBalance = (req, res) => {
-  Account.findByIdAndUpdate({_id: req.params.id},
-    { $inc: { balance: parseFloat(-req.body.amount) } })
-    .then(account => res.json(account._id))
-    .catch(err => res.status(400).json("Error: " + err));
-}  
+export const decrementAccountBalance = asyncHandler(async (req, res) => {
+  const account = await Account.findById(req.params.id);
+
+  if (!account) {
+    res.status(400);
+    throw new Error("Account not found");
+  }
+
+  account.balance -= parseFloat(req.body.amount);
+  await account.save();
+  
+  res.status(200).json(account);
+})
 
 // @desc    Delete goal
 // @route   DELETE /api/v1/accounts/:id
 // @access  Private
-export const deleteAccountTransaction = (req, res) => {
-  Account.findByIdAndUpdate(req.params.id) 
-    .then(() => res.json("deleted"))
-    .catch(err => ers.status(400).json("Error: " + err));
-}
+export const deleteAccount = asyncHandler(async (req, res) => {
+  const account = await Account.findById(req.params.id);
 
+  if (!account) {
+    res.status(400);
+    throw new Error("Account not found");
+  }
 
+  await account.remove();
 
+  res.status(200).json({ id: req.params.id });
+})
 

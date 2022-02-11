@@ -1,10 +1,10 @@
 import express from 'express';
 import { 
-    addNewAccountTransaction, 
+    addTransaction, 
     decrementAccountBalance, 
-    deleteAccountTransaction, 
-    getAccount, 
+    deleteAccount, 
     getAccounts, 
+    getOneAccount, 
     incrementAccountBalance, 
     setAccounts, 
     updateAccount 
@@ -13,8 +13,8 @@ import {
 const router = express.Router();
 
 router.route("/").get(getAccounts).post(setAccounts);
-router.route("/:id").get(getAccount).put(updateAccount).delete(deleteAccountTransaction);
-router.route("/:id/add/transaction").put(addNewAccountTransaction);
+router.route("/:id").get(getOneAccount).put(updateAccount).delete(deleteAccount);
+router.route("/:id/add/transaction").put(addTransaction);
 router.route("/:id/inc/balance").put(incrementAccountBalance);
 router.route("/:id/dec/balance").put(decrementAccountBalance);
 

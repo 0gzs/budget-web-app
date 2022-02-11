@@ -1,9 +1,7 @@
+import Transaction from "../models/transaction.model.js";
 
 // @desc    Get transactions
 // @route   GET /api/v1/transactions
-
-import Transaction from "../models/transaction.model";
-
 // @access  Private
 export const getTransactions = (req, res) => {
     Transaction.find()

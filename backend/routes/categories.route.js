@@ -5,9 +5,9 @@ import {
     getCategories, 
     incrementCategoryAmount, 
     setCategories, 
-    updateCategory 
+    updateCategory,
+    deleteCategory
 } from '../contollers/categories.controller.js';
-import { deleteCategory } from '../../src/services/CategoryService.js';
 
 const router = express.Router();
 
