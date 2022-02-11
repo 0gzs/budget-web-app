@@ -14,7 +14,7 @@ export async function getAllTransactions() {
 
 export async function createTransaction(transaction) {
     try {
-        const response = await http.post("/api/v1/transactions/create", transaction);
+        const response = await http.post("/api/v1/transactions", transaction);
         const { data } = response;
         
         let state = JSON.parse(localStorage.getItem("transactions"));

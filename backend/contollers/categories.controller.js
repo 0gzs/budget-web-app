@@ -55,6 +55,9 @@ export const decrementCategoryAmount = async (req, res) => {
         .catch(err => res.status(400).json("Error: " + err))
 }
 
+// @desc    Delete category
+// @route   DELETE /api/v1/categories/:id
+// @access  Private
 export const deleteCategory = (req, res) => {
     Category.findByIdAndDelete(req.params.id)
         .then(() => res.json("deleted"))
