@@ -14,7 +14,7 @@ export async function getAllAccounts() {
 
 export async function createAccount(account) {
     try {
-        const response = await http.post("/api/v1/accounts/create", account);
+        const response = await http.post("/api/v1/accounts/", account);
         const { data } = response;
         
         let state = JSON.parse(localStorage.getItem("accounts"));
@@ -43,7 +43,7 @@ export async function deleteAccount(id) {
 
 export async function pushTransaction(id, transactionId) {
     try {
-        await http.put(`/api/v1/accounts/${id}/update/transaction`, { transactionId: transactionId});
+        await http.put(`/api/v1/accounts/${id}/add/transaction`, { transactionId: transactionId});
 
         let state = JSON.parse(localStorage.getItem("accounts"));
         state = state.map(account => {
@@ -63,7 +63,7 @@ export async function pushTransaction(id, transactionId) {
 
 export async function addAccountTransaction(transaction) {
     try {
-        await http.put(`/api/v1/accounts/${transaction.account}/transaction`, { amount: transaction.amount });
+        await http.put(`/api/v1/accounts/${transaction.account}/dec/balance`, { amount: transaction.amount });
 
         let state = JSON.parse(localStorage.getItem("accounts"));
         state = state.map(account => {
@@ -83,7 +83,7 @@ export async function addAccountTransaction(transaction) {
 
 export async function removeAccountTransaction(transaction) {
     try {
-        await http.put(`/api/v1/accounts/${transaction.account}/transaction/delete`, { amount: transaction.amount });
+        await http.put(`/api/v1/accounts/${transaction.account}/inc/balance`, { amount: transaction.amount });
 
         let state = JSON.parse(localStorage.getItem("accounts"));
         state = state.map(account => {
