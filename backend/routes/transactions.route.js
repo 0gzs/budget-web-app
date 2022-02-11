@@ -5,10 +5,11 @@ import {
     setTransactions, 
     updateTransaction
 } from '../controllers/transactions.controller.js';
+import {protect} from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.route("/").get(getTransactions).post(setTransactions);
-router.route("/:id").put(updateTransaction).delete(deleteTransaction);
+router.route("/").get(protect, getTransactions).post(protect, setTransactions);
+router.route("/:id").put(protect, updateTransaction).delete(protect, deleteTransaction);
 
 export default router;

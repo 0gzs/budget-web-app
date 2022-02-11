@@ -1,11 +1,12 @@
 import asyncHandler from 'express-async-handler';
 import Transaction from "../models/transaction.model.js";
+import User from '../models/user.model.js';
 
 // @desc    Get transactions
 // @route   GET /api/v1/transactions
 // @access  Private
 export const getTransactions = asyncHandler(async (req, res) => {
-  const transactions = await Transaction.find();
+  const transactions = await Transaction.find({ user: req.user.id });
 
   res.status(200).json(transactions);
 })
@@ -14,7 +15,14 @@ export const getTransactions = asyncHandler(async (req, res) => {
 // @route   POST /api/v1/transactions
 // @access  Private
 export const setTransactions = asyncHandler(async (req, res) => {
-  if (!req.body.description && !req.body.date && !req.body.amount && !req.body.type && !req.body.category && !req.body.account) {
+  if (
+    !req.body.description &&
+    !req.body.date &&
+    !req.body.amount &&
+    !req.body.type &&
+    !req.body.category &&
+    !req.body.account )
+  {
     res.status(400);
     throw new Error("Please add all required fields");
   }
@@ -25,7 +33,8 @@ export const setTransactions = asyncHandler(async (req, res) => {
     amount: req.body.amount,
     type: req.body.type,
     category: req.body.category,
-    account: req.body.account
+    account: req.body.account,
+    user: req.user.id
   });
 
   res.status(200).json(transaction);
@@ -40,6 +49,18 @@ export const updateTransaction = asyncHandler(async (req, res) => {
   if (!transaction) {
     res.status(400);
     throw new Error("Transaction not found");
+  }
+
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (transaction.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
   }
 
   const updatedTransaction = await Transaction.findByIdAndUpdate(req.params.id, req.body, {
@@ -59,6 +80,19 @@ export const deleteTransaction = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Transaction not found");
   }
+
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (transaction.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
 
   await transaction.remove();
 
