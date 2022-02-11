@@ -8,12 +8,13 @@ import {
     updateCategory,
     deleteCategory
 } from '../controllers/categories.controller.js';
+import { protect } from '../middleware/authMiddleWare.js';
 
 const router = express.Router();
 
-router.route("/").get(getCategories).post(setCategories);
-router.route("/:id").put(updateCategory).delete(deleteCategory);
-router.route("/:id/inc/amount").put(incrementCategoryAmount);
-router.route("/:id/dec/amount").put(decrementCategoryAmount);
+router.route("/").get(protect, getCategories).post(protect, setCategories);
+router.route("/:id").put(protect, updateCategory).delete(protect, deleteCategory);
+router.route("/:id/inc/amount").put(protect, incrementCategoryAmount);
+router.route("/:id/dec/amount").put(protect, decrementCategoryAmount);
 
 export default router;

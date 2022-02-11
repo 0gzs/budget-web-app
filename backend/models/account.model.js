@@ -8,7 +8,7 @@ const accountSchema = new Scheme({
     createdAt: { type: Date, default: new Date },
     user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
     transactions: { type : Array , "default" : [] }
-}, { timeseries: true });
+}, { timestamps: true });
 
 const Account = mongoose.model("Account", accountSchema);
 

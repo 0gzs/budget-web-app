@@ -1,12 +1,13 @@
 import asyncHandler from 'express-async-handler';
+
 import Category from '../models/category.model.js';
+import User from '../models/user.model.js';
 
 // @desc    Get categories
 // @route   GET /api/v1/categories
 // @access  Private
 export const getCategories = asyncHandler(async (req, res) => {
-  const categories = await Category.find();
-
+  const categories = await Category.find({ user: req.user.id });
  
   res.status(200).json(categories);
 })
@@ -15,9 +16,7 @@ export const getCategories = asyncHandler(async (req, res) => {
 // @route   POST /api/v1/categories
 // @access  Private
 export const setCategories = asyncHandler(async (req, res) => {
-  const user = "61df6b800b7ab5b94fbb4497";
-
-  if (!req.body.name && !req.body.icon && !req.body.color) {
+  if (!req.body.name || !req.body.icon || !req.body.color) {
     res.status(400);
     throw new Error("Please add all required fields");
   }
@@ -27,7 +26,7 @@ export const setCategories = asyncHandler(async (req, res) => {
     icon: req.body.icon,
     color: req.body.color,
     amount: 0,
-    user: user
+    user: req.user.id
   });
 
   res.status(200).json(category);
@@ -42,6 +41,18 @@ export const updateCategory = asyncHandler(async (req, res) => {
   if (!category) {
     res.status(400);
     throw new Error("Category not found");
+  }
+
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (category.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
   }
 
   const updatedCategory = await Category.findByIdAndUpdate(req.params.id, req.body, {
@@ -62,6 +73,18 @@ export const incrementCategoryAmount = asyncHandler(async (req, res) => {
     throw new Error("Category not found");
   }
 
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (category.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
   category.amount += parseFloat(req.body.amount);
   await category.save();
 
@@ -79,6 +102,18 @@ export const decrementCategoryAmount = asyncHandler(async (req, res) => {
     throw new Error("Category not found");
   }
 
+   const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (category.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  } 
+
   category.amount -= parseFloat(req.body.amount);
   await category.save();
 
@@ -94,6 +129,18 @@ export const deleteCategory = asyncHandler(async (req, res) => {
   if (!category) {
     res.status(400);
     throw new Error("Category not found");
+  }
+
+   const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (category.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
   }
 
   await category.remove();
