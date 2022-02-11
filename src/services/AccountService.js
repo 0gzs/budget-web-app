@@ -2,7 +2,8 @@ import http from "../http-common";
 
 export async function getAllAccounts() {
     try {
-        const response = await http.get("/api/v1/accounts");
+        const userId = "61df6b800b7ab5b94fbb4497";
+        const response = await http.get(`/api/v1/accounts/`, userId);
         const { data } = response;
         localStorage.setItem("accounts", JSON.stringify(data));
         
