@@ -1,11 +1,12 @@
 import asyncHandler from 'express-async-handler';
 import Account from '../models/account.model.js';
+import User from '../models/user.model.js';
 
 // @desc    Get accounts
 // @route   GET /api/v1/accounts
 // @access  Private
 export const getAccounts = asyncHandler(async (req, res) => {
-  const accounts = await Account.find({ user: req.body.userId });
+  const accounts = await Account.find({ user: req.user.id });
   
   res.status(200).json(accounts);
 })
@@ -23,7 +24,7 @@ export const setAccounts = asyncHandler(async (req, res) => {
     name: req.body.name,
     balance: req.body.balance,
     type: req.body.type,
-    user: req.body.user
+    user: req.user.id
   });
 
   res.status(200).json(account);
@@ -54,6 +55,18 @@ export const updateAccount = asyncHandler(async (req, res) => {
     throw new Error("Account not found");
   }
 
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (account.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
   const updatedAccount = await Account.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
@@ -70,6 +83,18 @@ export const addTransaction = asyncHandler(async (req, res) => {
   if (!account) {
     res.status(400);
     throw new Error("Account not found");
+  }
+
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (account.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
   }
   
   await account.transactions.push(req.body.transactionId);
@@ -89,6 +114,18 @@ export const incrementAccountBalance = asyncHandler(async (req, res) => {
     throw new Error("Account not found");
   }
 
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (account.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
   account.balance += parseFloat(req.body.amount);
   await account.save();
   
@@ -106,6 +143,18 @@ export const decrementAccountBalance = asyncHandler(async (req, res) => {
     throw new Error("Account not found");
   }
 
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (account.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
+  }
+
   account.balance -= parseFloat(req.body.amount);
   await account.save();
   
@@ -121,6 +170,18 @@ export const deleteAccount = asyncHandler(async (req, res) => {
   if (!account) {
     res.status(400);
     throw new Error("Account not found");
+  }
+
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  if (account.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error("User not authorized");
   }
 
   await account.remove();

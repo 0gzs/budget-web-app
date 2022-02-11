@@ -9,13 +9,14 @@ import {
     setAccounts, 
     updateAccount 
 } from '../controllers/accounts.controller.js';
+import { protect } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.route("/").get(getAccounts).post(setAccounts);
-router.route("/:id").get(getOneAccount).put(updateAccount).delete(deleteAccount);
-router.route("/:id/add/transaction").put(addTransaction);
-router.route("/:id/inc/balance").put(incrementAccountBalance);
-router.route("/:id/dec/balance").put(decrementAccountBalance);
+router.route("/").get(protect, getAccounts).post(protect, setAccounts);
+router.route("/:id").get(getOneAccount).put(protect, updateAccount).delete(protect, deleteAccount);
+router.route("/:id/add/transaction").put(protect, addTransaction);
+router.route("/:id/inc/balance").put(protect, incrementAccountBalance);
+router.route("/:id/dec/balance").put(protect, decrementAccountBalance);
 
 export default router;
