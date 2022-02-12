@@ -58,7 +58,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     if (user && (await bcrypt.compare(password, user.password))) {
         res.json({
             _id: user.id,
-            username: user.name,
+            username: user.username,
             email: user.email,
             token: generateToken(user._id)
         });
@@ -72,11 +72,11 @@ export const loginUser = asyncHandler(async (req, res) => {
 // @route   GET /api/v1/users/me
 // @access  Private
 export const getMe = asyncHandler(async (req, res) => {
-  const { _id, name, email } = await User.findById(req.user.id);
+  const { _id, username, email } = await User.findById(req.user.id);
 
   res.status(200).json({
       id: _id,
-      name,
+      username,
       email
   });
 })

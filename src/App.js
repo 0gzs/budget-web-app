@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+
 import Dash from "./pages/dash/index.component";
+import Login from "./pages/user/login.component";
+import Register from "./pages/user/register.component";
 
 const App = ()  => {
-  const userId = "61df6b800b7ab5b94fbb4497";
-
-  useEffect(() => { localStorage.setItem("userId", userId) }, []);
-
   return (
     <div className="flex w-full">
-      <Dash />
+      <Routes>
+        <Route exact path="/" element={<Dash />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
     </div>
   );
 }
