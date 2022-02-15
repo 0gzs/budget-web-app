@@ -16,15 +16,17 @@ export const getCategories = asyncHandler(async (req, res) => {
 // @route   POST /api/v1/categories
 // @access  Private
 export const setCategories = asyncHandler(async (req, res) => {
-  if (!req.body.name || !req.body.icon || !req.body.color) {
+  const { name, icon, color } = req.body;
+
+  if (!name && !icon && !color) {
     res.status(400);
     throw new Error("Please add all required fields");
   }
 
   const category = await Category.create({
-    name: req.body.name,
-    icon: req.body.icon,
-    color: req.body.color,
+    name: name,
+    icon: icon,
+    color: color,
     amount: 0,
     user: req.user.id
   });
@@ -84,7 +86,7 @@ export const incrementCategoryAmount = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("User not authorized");
   }
-
+  console.log("amount", req.body.amount);
   category.amount += parseFloat(req.body.amount);
   await category.save();
 

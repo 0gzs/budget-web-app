@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAllTransactions } from "../services/TransactionService";
+import { getTransactions } from "../services/TransactionService";
 
 const useTransactions = () => {
     const [transactions, setTransactions] = useState(() => {
@@ -14,15 +14,16 @@ const useTransactions = () => {
     };
 
     useEffect(() => {
-        if (!transactions) getTransactions();
+        if (!transactions) getAllTransactions();
 
-        async function getTransactions() {
-            const data = await getAllTransactions();
-            store(data);
+        async function getAllTransactions() {
+            const data = await getTransactions();
+            
+            data && store(data);
         }
     }, [transactions]);
 
-    const handleTransactions = trs => setTransactions(trs);
+    const handleTransactions = data => setTransactions(data);
 
     return { transactions, handleTransactions };
 };

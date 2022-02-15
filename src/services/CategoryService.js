@@ -1,20 +1,38 @@
-import http from '../http-common';
+import axios from "axios";
 
-export async function getAllCategories() {
+const API_URL = 'http://localhost:5001/api/v1/categories';
+
+export const getCategories = async () => {
     try {
-        const response = await http.get("/api/v1/categories");
-        const { data } = response;
-        localStorage.setItem("categories", JSON.stringify(data));
+        const { token } = JSON.parse(localStorage.getItem("user")); 
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const response = await axios.get(API_URL, config);
+        
+        if (response.data) {
+            localStorage.setItem("categories", JSON.stringify(response.data));
+        }
 
-        return data;
+        return response.data;
     }   catch (err) {
         return null;
     }
 }
 
-export async function createCategory(category) {
+export const createCategory = async categoryData => {
     try {
-        const response = await http.post("/api/v1/categories", category);
+        const { token } = JSON.parse(localStorage.getItem("user")); 
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const response = await axios.post(API_URL, categoryData, config);
         const { data } = response;
 
         let state = JSON.parse(localStorage.getItem("categories"));
@@ -27,9 +45,16 @@ export async function createCategory(category) {
     }
 }
 
-export async function deleteCategory(id) {
+export const deleteCategory = async id => {
     try {
-        await http.delete(`/api/v1/categories/${id}`);
+        const { token } = JSON.parse(localStorage.getItem("user")); 
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+        await axios.delete(`${API_URL}/${id}`, config);
 
         let state = JSON.parse(localStorage.getItem("categories"));
         state = state.filter(category => category._id !== id);
@@ -41,9 +66,16 @@ export async function deleteCategory(id) {
     }
 }
 
-export async function addCategoryTransaction(transaction) {
+export const addCategoryTransaction = async (transaction) => {
     try {
-        await http.put(`/api/v1/categories/${transaction.category}/dec/amount`, { amount: transaction.amount });
+        const { token } = JSON.parse(localStorage.getItem("user"));
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        };
+        await axios.put(`${API_URL}/${transaction.category}/dec/amount`, { amount: transaction.amount }, config);
 
         let state = JSON.parse(localStorage.getItem("categories"));
         state = state.map(category => {
@@ -61,9 +93,17 @@ export async function addCategoryTransaction(transaction) {
     }
 }
 
-export async function removeCategoryTransaction(transaction) {
+export const removeCategoryTransaction = async transaction => {
     try {
-        await http.put(`/api/v1/categories/${transaction.category}/transaction/delete`, { amount: transaction.amount });
+        const { token } = JSON.parse(localStorage.getItem("user"));
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        };
+        console.log(transaction.amount)
+        await axios.put(`${API_URL}/${transaction.category}/inc/amount`, { amount: transaction.amount }, config);
 
         let state = JSON.parse(localStorage.getItem("categories"));
         state = state.map(category => {
@@ -81,14 +121,22 @@ export async function removeCategoryTransaction(transaction) {
     }
 }
 
-export async function updateCategory(id, data, field) {
+export const updateCategory = async (id, categoryData, field) => {
     try {
-        await http.put(`/api/v1/categories/${id}`, { data, field });
+        const { token } = JSON.parse(localStorage.getItem("user")); 
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const response = await axios.put(`${API_URL}/${id}`, { [field]: categoryData }, config);
+        const { data } = response;
         
         let state = JSON.parse(localStorage.getItem("categories"));
         state = state.map(category => {
             if (category._id === id) {
-                category[field] = data;
+                category[field] = data[field];
                 return category;
             }
             return category;

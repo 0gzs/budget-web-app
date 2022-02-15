@@ -15,27 +15,24 @@ export const getTransactions = asyncHandler(async (req, res) => {
 // @route   POST /api/v1/transactions
 // @access  Private
 export const setTransactions = asyncHandler(async (req, res) => {
-  if (
-    !req.body.description &&
-    !req.body.date &&
-    !req.body.amount &&
-    !req.body.type &&
-    !req.body.category &&
-    !req.body.account )
-  {
+  console.log("Here")
+  const { description, date, amount, type, category, account } = req.body;
+
+  if (!description && !date && !amount && !type && !category && !account ) {
     res.status(400);
     throw new Error("Please add all required fields");
   }
 
   const transaction = await Transaction.create({
-    description: req.body.description,
-    date: Date.parse(req.body.date),
-    amount: req.body.amount,
-    type: req.body.type,
-    category: req.body.category,
-    account: req.body.account,
+    description,
+    date: Date.parse(date),
+    amount,
+    type,
+    category,
+    account,
     user: req.user.id
   });
+  console.log(transaction);
 
   res.status(200).json(transaction);
 })

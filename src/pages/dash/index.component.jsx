@@ -6,7 +6,6 @@ import useAccounts from '../../hooks/useAccounts.hook';
 import useCategories from '../../hooks/useCategories.hook';
 import useTransactions from '../../hooks/useTransactions.hook';
 
-import Header from '../../components/header/index.component';
 import Accounts from '../../components/accounts/index.component';
 import Categories from '../../components/categories/index.component'
 import Transactions from '../../components/transactions/index.component';
@@ -27,36 +26,32 @@ const Dash = () => {
         setUser(null);
     };
 
-    const { accounts, balance, handleAccounts } = useAccounts();
+    const { accounts, totalBalance, handleAccounts } = useAccounts();
     const { categories, handleCategories } = useCategories();
     const { transactions, handleTransactions } = useTransactions();
 
     if (!user) return <h1>Loading...</h1>
 
     return (
-        <div className='w-full flex flex-col items-center
-                        md:flex-row justify-center 
-                        bg-dark space-y-3 md:space-y-0 
-                        md:space-x-3 shadow-inner py-24 relative'>            
-            <Header signOut={signOut} username={user.username} />
+        <div className='w-full flex space-x-2 items-start justify-center bg-dark/95 pt-20'>
             <div className='flex flex-col justify-items-start h-full
-                            space-y-3 w-fit sm:max-h-[680px]'>
+                            space-y-3 w-fit sm:max-h-[680px] z-10'>
                 <Accounts 
-                    accounts={accounts}
-                    balance={balance}
-                    handleState={handleAccounts}
-                    handleTransactions={handleTransactions} /> 
-                <Categories 
-                    categories={categories} 
-                    balance={balance}
-                    handleState={handleCategories} />
+                    accounts={accounts} 
+                    handleState={handleAccounts} 
+                    totalBalance={totalBalance} 
+                    handleTransactions={handleTransactions} />
+                <Categories
+                    categories={categories}
+                    handleState={handleCategories}
+                    balance={totalBalance} />
             </div>
             <div className='w-fit h-[680px]'>
-                    <Transactions 
-                        transactions={transactions}
-                        handleState={handleTransactions}
-                        handleCategories={handleCategories}
-                        handleAccounts={handleAccounts} />
+                <Transactions
+                    transactions={transactions}
+                    handleState={handleTransactions}
+                    handleAccounts={handleAccounts}
+                    handleCategories={handleCategories} />       
             </div>
         </div>
     );

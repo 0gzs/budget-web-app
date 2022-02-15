@@ -8,7 +8,7 @@ const transactionSchema = new Schema({
     type: { type: Number, required: true },
     category: { type: String, required: true },
     account: {type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Account'},
-    user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'Category' },
+    user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
     createdAt: { type: Date, default: new Date },
 }, { timestamps: true});
 

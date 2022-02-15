@@ -1,20 +1,39 @@
-import http from "../http-common";
+import axios from "axios";
 
-export async function getAllTransactions() {
+const API_URL = 'http://localhost:5001/api/v1/transactions';
+
+// Get all transactions for logged in user
+export const getTransactions = async () => {
     try {
-        const response = await http.get("/api/v1/transactions");
-        const { data } = response;
-        localStorage.setItem("transactions", JSON.stringify(data));
+        const { token } = JSON.parse(localStorage.getItem("user")); 
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const response = await axios.get(API_URL, config);
+        
+        if(response.data) {
+            localStorage.setItem("transactions", JSON.stringify(response.data));
+        }
 
-        return data;
+        return response.data;
     } catch (err) {
         return null;
     }
 }
 
-export async function createTransaction(transaction) {
+export const createTransaction = async transactionData =>  {
     try {
-        const response = await http.post("/api/v1/transactions", transaction);
+        const { token } = JSON.parse(localStorage.getItem("user")); 
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const response = await axios.post(API_URL, transactionData, config);
         const { data } = response;
         
         let state = JSON.parse(localStorage.getItem("transactions"));
@@ -27,9 +46,16 @@ export async function createTransaction(transaction) {
     }
 }
 
-export async function deleteTransaction(id) {
+export const deleteTransaction = async id => {
     try {
-        await http.delete(`/api/v1/transactions/${id}`);
+        const { token } = JSON.parse(localStorage.getItem("user")); 
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+        await axios.delete(`${API_URL}/${id}`, config);
         
         let state = JSON.parse(localStorage.getItem("transactions"));
         state = state.filter(transaction => transaction._id !== id);

@@ -19,9 +19,7 @@ const Login = () => {
         }));
     };
 
-    const submit = async e => {
-        e.preventDefault();
-        
+    const submit = async () => {
         const userData = {
             email,
             password
@@ -34,7 +32,7 @@ const Login = () => {
     return (
         <div className="fixed top-0 right-0 left-0 bottom-0 flex flex-col items-center justify-center bg-dark">
             <div className="w-[320px] p-4 bg-carbon">
-                <form className="flex flex-col space-y-3 text-white" onSubmit={submit}>
+                <div className="flex flex-col space-y-3 text-white">
                     <h1 className="text-6xl text-cyan-400 font-extrabold">login</h1>
                     <div className="w-full">
                         <label className="font-bold text-sm">email:</label>
@@ -54,10 +52,10 @@ const Login = () => {
                             value={password}
                             onChange={onChange} />
                     </div>
-                    <button type="submit" className="px-4 py-2 bg-cyan-400 rounded-sm font-extrabold">
+                    <button onClick={submit} className="px-4 py-2 bg-cyan-400 rounded-sm font-extrabold">
                         log in
                     </button>
-                </form>
+                </div>
                 <p className="text-white text-center text-sm font-source font-bold mt-3 tracking-wide">
                     Not registered yet? 
                     <Link to="/register" className="text-cyan-400"> Register here</Link>.

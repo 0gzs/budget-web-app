@@ -15,19 +15,17 @@ export const getAccounts = asyncHandler(async (req, res) => {
 // @route   POST /api/v1/accounts
 // @access  Private
 export const setAccounts = asyncHandler(async (req, res) => {
-  if (
-    !req.body.name  && 
-    !req.body.balance && 
-    !req.body.type) 
-  {
+  const { name, balance, type } = req.body;
+
+  if (!name  && !balance && !type) {
     res.status(400);
     throw new Error("Please add all required fields");
   }
 
   const account = await Account.create({
-    name: req.body.name,
-    balance: req.body.balance,
-    type: req.body.type,
+    name,
+    balance,
+    type,
     user: req.user.id
   });
 

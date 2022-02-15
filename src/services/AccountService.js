@@ -1,21 +1,39 @@
-import http from "../http-common";
+import axios from "axios";
 
-export async function getAllAccounts() {
+const API_URL = 'http://localhost:5001/api/v1/accounts';
+
+// Get all accounts for logged in user
+export const getAccounts = async () => {
     try {
-        const userId = "61df6b800b7ab5b94fbb4497";
-        const response = await http.get(`/api/v1/accounts/`, userId);
-        const { data } = response;
-        localStorage.setItem("accounts", JSON.stringify(data));
+        const { token } = JSON.parse(localStorage.getItem("user"));
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        };
+        const response = await axios.get(API_URL, config);
         
-        return data;
-    } catch (err) {
-        return null;
+        if (response.data) {
+            localStorage.setItem('accounts', JSON.stringify(response.data));
+        }
+        
+        return response.data;
+    } catch (error) {
+        return null
     }
 }
 
-export async function createAccount(account) {
+export const createAccount = async accountData => {
     try {
-        const response = await http.post("/api/v1/accounts/", account);
+        const { token } = JSON.parse(localStorage.getItem("user"));
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        }
+        const response = await axios.post(API_URL, accountData, config);
         const { data } = response;
         
         let state = JSON.parse(localStorage.getItem("accounts"));
@@ -28,23 +46,30 @@ export async function createAccount(account) {
     }
 }
 
-export async function deleteAccount(id) {
-    try {
-        await http.delete(`/api/v1/accounts/${id}`);
+// export async function deleteAccount(id) {
+//     try {
+//         await http.delete(`/api/v1/accounts/${id}`);
         
-        let state = JSON.parse(localStorage.getItem("accounts"));
-        state = state.filter(account => account._id !== id);
-        localStorage.setItem("accounts", JSON.stringify(state));
+//         let state = JSON.parse(localStorage.getItem("accounts"));
+//         state = state.filter(account => account._id !== id);
+//         localStorage.setItem("accounts", JSON.stringify(state));
         
-        return state;
-    } catch (err) {
-        return null;
-    }
-}
+//         return state;
+//     } catch (err) {
+//         return null;
+//     }
+// }
 
-export async function pushTransaction(id, transactionId) {
+export const pushTransaction = async (id, transactionId) => {
     try {
-        await http.put(`/api/v1/accounts/${id}/add/transaction`, { transactionId: transactionId});
+        const { token } = JSON.parse(localStorage.getItem("user"));
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        };
+        await axios.put(`${API_URL}/${id}/add/transaction`, { transactionId: transactionId }, config);
 
         let state = JSON.parse(localStorage.getItem("accounts"));
         state = state.map(account => {
@@ -62,9 +87,16 @@ export async function pushTransaction(id, transactionId) {
     }
 }
 
-export async function addAccountTransaction(transaction) {
+export const addAccountTransaction = async transaction => {
     try {
-        await http.put(`/api/v1/accounts/${transaction.account}/dec/balance`, { amount: transaction.amount });
+        const { token } = JSON.parse(localStorage.getItem("user"));
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        };
+        await axios.put(`${API_URL}/${transaction.account}/dec/balance`, { amount: transaction.amount }, config);
 
         let state = JSON.parse(localStorage.getItem("accounts"));
         state = state.map(account => {
@@ -82,9 +114,17 @@ export async function addAccountTransaction(transaction) {
     }
 }
 
-export async function removeAccountTransaction(transaction) {
+export const removeAccountTransaction = async transaction => {
     try {
-        await http.put(`/api/v1/accounts/${transaction.account}/inc/balance`, { amount: transaction.amount });
+        const { token } = JSON.parse(localStorage.getItem("user"));
+        const config = {
+            headers: {
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        };
+
+        await axios.put(`${API_URL}/${transaction.account}/inc/balance`, { amount: transaction.amount }, config);
 
         let state = JSON.parse(localStorage.getItem("accounts"));
         state = state.map(account => {
