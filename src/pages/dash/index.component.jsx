@@ -1,57 +1,41 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../../services/AuthService';
-
-import useAccounts from '../../hooks/useAccounts.hook';
-import useCategories from '../../hooks/useCategories.hook';
-import useTransactions from '../../hooks/useTransactions.hook';
+import { reset } from '../../features/auth/authSlice';
+import { toast } from 'react-toastify';
 
 import Accounts from '../../components/accounts/index.component';
 import Categories from '../../components/categories/index.component'
-import Transactions from '../../components/transactions/index.component';
+import Header from '../../components/header/index.component';
 
 const Dash = () => {
     const navigate = useNavigate();
-    
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+    const dispatch = useDispatch();
+
+    const { user, isError, message } = useSelector(state => state.auth);
 
     useEffect(() => {
+        if (isError) {
+            toast.error(message);
+        }
+
         if (!user) {
             navigate('/login');
-        };
-    }, [user, navigate]);
+        }
 
-    const signOut = () => {
-        logout();
-        setUser(null);
-    };
+        dispatch(reset());
 
-    const { accounts, totalBalance, handleAccounts } = useAccounts();
-    const { categories, handleCategories } = useCategories();
-    const { transactions, handleTransactions } = useTransactions();
+    }, [user, isError, message, navigate, dispatch])
 
     if (!user) return <h1>Loading...</h1>
 
     return (
-        <div className='w-full flex space-x-2 items-start justify-center bg-dark/95 pt-20'>
-            <div className='flex flex-col justify-items-start h-full
-                            space-y-3 w-fit sm:max-h-[680px] z-10'>
-                <Accounts 
-                    accounts={accounts} 
-                    handleState={handleAccounts} 
-                    totalBalance={totalBalance} 
-                    handleTransactions={handleTransactions} />
-                <Categories
-                    categories={categories}
-                    handleState={handleCategories}
-                    balance={totalBalance} />
-            </div>
-            <div className='w-fit h-[680px]'>
-                <Transactions
-                    transactions={transactions}
-                    handleState={handleTransactions}
-                    handleAccounts={handleAccounts}
-                    handleCategories={handleCategories} />       
+        <div className='w-full flex flex-col space-y-6 items-start justify-center py-16 bg-dark/95 pt-20 sm:flex-row sm:space-x-2'>
+            <Header />
+            <div className='flex flex-col sm:flex-row items-center w-full h-full space-x-0 space-y-3 sm:space-x-2
+                            sm:w-fit sm:space-y-0 sm:max-h-[680px] z-10 sm:items-start'>
+                <Accounts />
+                <Categories />
             </div>
         </div>
     );

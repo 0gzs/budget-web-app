@@ -1,17 +1,20 @@
 const icons = [
     "bi bi-receipt",
-    "bi bi-quote",
-    "bi bi-rainbow",
-    "bi bi-pin-fill",
+    "bi bi-sd-card",
+    "bi bi-bank",
+    "bi bi-calendar-day",
     "bi bi-piggy-bank",
-    "bi bi-minecart-loaded",
+    "bi bi-cash-coin",
     "bi bi-journal-check",
-    "bi bi-headphones",
-    "bi bi-folder",
+    "bi bi-cloud-drizzle",
+    "bi bi-droplet",
     "bi bi-envelope",
     "bi bi-cup",
     "bi bi-basket",
-    "bi bi-apple"
+    "bi bi-emoji-smile",
+    "bi bi-apple",
+    "bi bi-gift-fill",
+    "bi bi-lightbulb-fill"
 ];
 
 const backgroundColors = [

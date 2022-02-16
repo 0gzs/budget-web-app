@@ -15,7 +15,6 @@ export const getTransactions = asyncHandler(async (req, res) => {
 // @route   POST /api/v1/transactions
 // @access  Private
 export const setTransactions = asyncHandler(async (req, res) => {
-  console.log("Here")
   const { description, date, amount, type, category, account } = req.body;
 
   if (!description && !date && !amount && !type && !category && !account ) {
@@ -32,7 +31,6 @@ export const setTransactions = asyncHandler(async (req, res) => {
     account,
     user: req.user.id
   });
-  console.log(transaction);
 
   res.status(200).json(transaction);
 })
@@ -92,6 +90,28 @@ export const deleteTransaction = asyncHandler(async (req, res) => {
 
 
   await transaction.remove();
+
+  res.status(200).json({ id: req.params.id });
+})
+
+export const deleteTransactions = asyncHandler(async (req, res) => {
+  const transactions = await Transaction.find({ account: req.params.id });
+
+  if (!transactions) {
+    res.status(400);
+    throw new Error("Transaction not found");
+  }
+
+  const user = await User.findById(req.user.id);
+
+  if (!user) {
+    res.status(401);
+    throw new Error("User not found");
+  }
+
+  transactions.forEach(async transaction => {
+    await transaction.remove();
+  })
 
   res.status(200).json({ id: req.params.id });
 })

@@ -1,9 +1,9 @@
 .modal {
-    @apply fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-black/30 z-20;
+    @apply fixed h-screen flex items-center justify-center bg-black/30 z-20 overflow-y-hidden;
 }
 
 .form-container {
-    @apply w-[370px] p-6 bg-carbon shadow-md;
+    @apply w-[330px] p-6 bg-carbon shadow-md;
 }
 
 .form {
@@ -43,4 +43,10 @@
 .error {
     @apply text-[12px] text-yellow text-left font-bold
     w-full capitalize py-1;
+}
+
+@screen sm {
+    .form-container {
+        @apply w-[400px];
+    }
 }

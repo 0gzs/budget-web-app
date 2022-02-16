@@ -1,124 +1,67 @@
-import React from 'react';
-import useForm from '../../../hooks/useForm.hook';
-import { createAccount, pushTransaction } from '../../../services/AccountService';
-import { createTransaction } from '../../../services/TransactionService';
+import React, { useState } from 'react';
 
-const AccountForm = ({ handleState, hide, loading, handleTransactions }) => {
-    const initialState = {
+const AccountForm = ({ hide, submit }) => {
+    const [account, setAccount] = useState({
         name: "",
         balance: "",
         type: ""
-    };
+    });
 
-    const validations = [
-        ({ name }) => isRequired(name) || { name: 'An account name is required' },
-        ({ balance }) => isANumber(balance) || { balance: 'Choose a numeric amount' },
-        ({ type }) => isRequired(type) || { type: 'Savings or checking?' },
-    ]
-    const { values, changeHandler, errors, touched, submitHandler } = useForm(initialState, validations, submit);
-
-    function isRequired(value) {
-        return value !== null && value.trim().length > 0;
-    }
-
-    function isANumber(value) {
-        return !isNaN(value) && !value !== null && value.trim().length > 0;
-    }
-
-    async function submit(account) {
-        hide();
-        loading(true);
-        
-        const accountData = {
-            name: account.name, 
-            balance: account.balance, 
-            type: account.type
-        }
-
-        let accounts = await createAccount(accountData);
-        let savedAccount = accounts[accounts.length - 1];
-
-        const transactions = await createTransaction({
-            description: `Deposit to ${account.name}`,
-            date: new Date(),
-            amount: account.balance,
-            type: 1,
-            category: "Income",
-            account: savedAccount._id
-        });
-        handleTransactions(transactions);
-        let savedTransaction = transactions[transactions.length - 1];
-
-        accounts = await pushTransaction(savedAccount._id, savedTransaction._id);
-        handleState(accounts);
-        
-        loading(false);
-    };
+    const onChange = e => setAccount(prevState => ({
+        ...prevState,
+        [e.target.name]: e.target.value
+    }))
 
     return (
         <div className='modal'>
-            <div className='form-container'>
+            <div className='form-container pb-0'>
                 <h1 className='form-title'>add account</h1>
                 <div className='form'>
                     <div className='w-full'>
-                        <label className="font-label">account name:</label>
+                        <label className="form-label">account name:</label>
                         <input 
                             className="form-input focus:outline focus:outline-3 focus:outline-cyan-200"
                             type="text"
                             name="name"
                             placeholder='ex. Piggy 🐷  Bank'
-                            value={values.name}
-                            onChange={changeHandler} />
-                        <div>
-                            {(touched.name && errors.name) || touched.empty ? 
-                                <p className='error'>{errors.name}</p> :
-                                <p className='error opacity-0'>none</p>}
-                        </div>
+                            value={account.name}
+                            onChange={onChange} />
                     </div>
                     <div className='w-full flex space-x-2 items-center'>
                         <div className='w-full'>
-                            <label className="font-label">balance:</label>
+                            <label className="form-label">balance:</label>
                             <input 
                                 className="form-input focus:outline focus:outline-3 focus:outline-cyan-200"
                                 type="text"
+                                inputMode="decimal"
                                 name="balance"
                                 placeholder='$0.00'
-                                value={values.balance}
-                                onChange={changeHandler} />
-                            <div>
-                                {(touched.balance && errors.balance) || touched.empty ? 
-                                    <p className='error'>{errors.balance}</p> :
-                                    <p className='error opacity-0'>none</p>}
-                            </div>
+                                value={account.balance}
+                                onChange={onChange} />
                         </div>
                         <div className='w-full'>
-                            <label className="font-label">type:</label>
+                            <label className="form-label">type:</label>
                             <select
-                                className="form-input focus:outline focus:outline-3 focus:outline-cyan-200"
+                                className="form-select form-input focus:outline 
+                                           focus:border-4 focus:outline-cyan-200
+                                            border-2 border-transparent text-white"
                                 name="type"
-                                value={values.type}
-                                onChange={changeHandler}>
+                                value={account.type}
+                                onChange={onChange}>
                                     <option value={null}>--Select--</option>
                                     <option
-                                        value={0}
-                                        onChange={changeHandler}>Checking</option>
+                                        value={0}>Checking</option>
                                     <option
-                                        value={0}
-                                        onChange={changeHandler}>Savings</option>
+                                        value={1}>Savings</option>
                             </select>
-                            <div>
-                                {(touched.type && errors.type) || touched.empty ? 
-                                    <p className='error'>{errors.type}</p> :
-                                    <p className='error opacity-0'>none</p>}
-                            </div>
                         </div>
                     </div>
                 </div>
-                <div className='form-btn-group'>
-                    <button onClick={hide} className='btn-cancel'>
-                        cancel
+                <div className='flex space-x-6 justify-around'>
+                    <button onClick={hide} className='card-btn card-btn-close'>
+                        close
                     </button>
-                    <button onClick={submitHandler} className='btn-submit'>
+                    <button onClick={() => submit(account)} className='card-btn'>
                         submit
                     </button>
                 </div>

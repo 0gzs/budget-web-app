@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../services/AuthService";
+import { toast } from "react-toastify";
+import { login, reset } from "../../features/auth/authSlice";
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -11,6 +13,22 @@ const Login = () => {
     const { email, password } = formData;
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { user, isError, isSuccess, message } = useSelector(state => state.auth);
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message);
+        }
+        
+        if (isSuccess || user) {
+            navigate('/');
+        }
+
+        dispatch(reset());
+
+    }, [user, isError, isSuccess, message, navigate, dispatch])
 
     const onChange = e => {
         setFormData(prevState => ({
@@ -25,8 +43,7 @@ const Login = () => {
             password
         };
 
-        await loginUser(userData);
-        navigate("/")
+        dispatch(login(userData));
     };
 
     return (
@@ -62,7 +79,7 @@ const Login = () => {
                 </p>
             </div>
 
-            <div className="w-[320px] flex items-center justify-center my-3">
+            {/* <div className="w-[320px] flex items-center justify-center my-3">
                 <div className="border-1 border-gray-700 w-[130px] h-0"></div>
                 <p className="text-gray-400 font-bold px-[10px]">or</p>
                 <div className="border-1 border-gray-700 w-[130px] h-0"></div>
@@ -72,7 +89,7 @@ const Login = () => {
                 <button className="w-[320px] px-4 py-2 bg-cyan-400 rounded-sm font-extrabold text-white">
                     view demo
                 </button>
-            </div>
+            </div> */}
         </div>
     );
 };

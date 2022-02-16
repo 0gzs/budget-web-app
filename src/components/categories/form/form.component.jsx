@@ -1,14 +1,18 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 import { backgroundColors, icons } from '../../../data/category-data';
-import { createCategory } from '../../../services/CategoryService';
+import { createCategory } from '../../../features/categories/categoriesSlice';
 
-const CategoryForm = ({ handleState, hide, loading }) => {
+const CategoryForm = ({ hide, show }) => {
     const [formData, setFormData] = useState({
         name: "",
         icon: "",
         color: ""
     })
     const { name, color, icon } = formData;
+
+    const dispatch = useDispatch();
 
     const isValidSubmit = category => {
         if (category.name.trim().length > 0 || category.icon.trim().length > 0 || category.color.trim().length > 0) return true;
@@ -24,8 +28,11 @@ const CategoryForm = ({ handleState, hide, loading }) => {
     };
 
     const submit = async () => {
+        if (!name || !color || !icon) {
+            toast('Hmm. Some fields seem to be missing');
+            return show();
+        }
         hide();
-        loading(true);
 
         const categoryData = {
             name, 
@@ -35,30 +42,27 @@ const CategoryForm = ({ handleState, hide, loading }) => {
 
         if (!isValidSubmit(categoryData)) return null;
 
-        const categories = await createCategory(categoryData);
-        handleState(categories);
-        
-        loading(false);
+        dispatch(createCategory(categoryData));
     }
    
     return (
-        <div className='fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center bg-black/30 z-20'>
-            <div className='w-[350px] p-4 bg-carbon shadow-md flex flex-col space-y-3'>
-                <h1 className='text-2xl text-white font-extrabold font-source'>add category</h1>
-                <div className='w-full text-white flex flex-col'>
+        <div className='modal'>
+            <div className='form-container'>
+                <h1 className='form-title'>add category</h1>
+                <div className='form'>
                     
                     <div className='w-full'>
-                        <label className="font-bold text-sm">category name:</label>
+                        <label className="form-label">category name:</label>
                         <input 
-                            className="bg-carbonlight w-full px-4 py-2 rounded-sm text-white font-bold tracking-wide focus:outline focus:outline-3 focus:outline-cyan-200"
+                            className="form-input"
                             type="text"
                             name="name"
-                            placeholder='ex. Piggy 🐷  Bank'
+                            placeholder='ex. Phone bill'
                             value={name}
                             onChange={changeHandler} />
                     </div>
                     <div className='w-full'>
-                        <label className="font-bold text-sm">color:</label>
+                        <label className="form-label">color:</label>
                         <div className='w-full overflow-y-auto bg-carbonlight p-3 rounded
                                     no-scrollbar grid grid-cols-7
                                     gap-2 items-center justify-center'>
@@ -78,7 +82,7 @@ const CategoryForm = ({ handleState, hide, loading }) => {
                         </div>
                     </div>
                     <div className='w-full'>
-                        <label className='font-bold text-sm'>icon:</label>
+                        <label className='form-label'>icon:</label>
                         <div className='flex overflow-x-auto
                                     space-x-2 px-1 py-2 bg-carbonlight rounded'>
                             {icons.map((ic, i) => {
@@ -103,10 +107,10 @@ const CategoryForm = ({ handleState, hide, loading }) => {
                     
                 <div className='form-btn-group'>
                     <button onClick={hide}
-                        className='form-btn btn-cancel'>Nvm.</button>
+                        className='card-btn card-btn-close'>close</button>
 
                     <button onClick={submit}
-                        className='form-btn btn-submit'>Go</button>
+                        className='card-btn'>submit</button>
                 </div>
             </div>
         </div>

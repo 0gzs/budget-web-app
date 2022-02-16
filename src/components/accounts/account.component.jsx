@@ -1,33 +1,30 @@
-import React from 'react';
-import AccountLoader from './loader.component';
+import React, { useState } from 'react';
 import dollarUS from '../../functions/currency-formatter';
-import Emoji from '../emoji.component';
 
-const Account = ({ account, deleteOne }) => {
+
+import AccountLoader from './loader.component';
+import ViewAccount from './view-account/viewAccount.component';
+
+const Account = ({ account }) => {
+    const [viewAccount, setViewAccount] = useState(false);
+
+    const show = () => setViewAccount(true);
+    const hide = () => setViewAccount(false);
 
     if (!account) return <AccountLoader />
 
-    const ExitBtn = () => {
-        return (
-            <div onClick={() => {}}
-                className='w-6 h-6 bg-gray-600 rounded-md 
-                            absolute right-[-10px] top-[-10px]
-                            flex items-center justify-center text-sm pt-[3px] hover:cursor-pointer 
-                            min-w-max scale-0 transition-all
-                            duration-100 origin-right group-hover:scale-100'>
-                <Emoji symbol="❌" label="letter x" />
-            </div>
-        );
-    };
-    
+    if (viewAccount) {
+        return <ViewAccount account={account} hide={hide} show={show} />;
+    }
+
     return (
-        <div className='w-full font-source bg-dark flex px-3 py-2 items-center justify-around relative group rounded'>
-            <ExitBtn />
-            <i className='bi bi-bank text-white text-sm'></i>
-            <p className='text-white text-xs capitalize font-big w-2/3 ml-2'>{account.name}</p>
-            <div className='min-w-[94px] flex justify-end'>
-                <p className='w-fit bg-carbon px-2 py-1 rounded-md text-moneygreen text-xs font-big'>{dollarUS.format(account.balance)}</p>
-            </div>
+        <div className='w-full font-source bg-dark flex px-3 py-2 items-center justify-around relative group rounded hover:cursor-pointer'
+            onClick={show}>
+                <i className='bi bi-bank text-white text-sm'></i>
+                <p className='text-white text-xs capitalize font-big w-2/3 ml-2'>{account.name}</p>
+                <div className='min-w-[94px] flex justify-end'>
+                    <p className='w-fit bg-carbon px-2 py-1 rounded-md text-moneygreen text-xs font-big'>{dollarUS.format(account.balance)}</p>
+                </div>
         </div>
     );
 };

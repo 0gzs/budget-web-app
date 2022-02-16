@@ -86,7 +86,7 @@ export const incrementCategoryAmount = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("User not authorized");
   }
-  console.log("amount", req.body.amount);
+  
   category.amount += parseFloat(req.body.amount);
   await category.save();
 
