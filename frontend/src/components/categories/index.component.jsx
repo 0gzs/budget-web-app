@@ -80,7 +80,7 @@ const Categories = () => {
                                 update={update} />
                         );
                     })) :
-                    <p className='italic text-gray-400 text-center font-mono'>No categories yet</p>
+                    <p className='italic text-gray-400 w-[200%] text-center font-mono'>No categories yet</p>
                 }
             </div>
             <button className='card-btn' onClick={showForm}>

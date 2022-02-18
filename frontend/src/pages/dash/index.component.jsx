@@ -30,10 +30,10 @@ const Dash = () => {
     if (!user) return <h1>Loading...</h1>
 
     return (
-        <div className='w-full flex flex-col space-y-6 items-start justify-center py-16 bg-dark/95 pt-20 sm:flex-row sm:space-x-2'>
+        <div className='w-full flex flex-col space-y-6 items-center justify-center bg-dark/95 pt-20 lg:pl-20 xl:justify-center lg:pt-0 sm:flex-row sm:space-x-2'>
             <Header />
-            <div className='flex flex-col sm:flex-row items-center w-full h-full space-x-0 space-y-3 sm:space-x-2
-                            sm:w-fit sm:space-y-0 sm:max-h-[680px] z-10 sm:items-start'>
+            <div className='flex flex-col sm:flex-row items-center w-full h-full space-x-0 space-y-3 sm:space-x-4
+                            sm:w-fit sm:space-y-0 sm:max-h-[580px] z-10 sm:items-start'>
                 <Accounts />
                 <Categories />
             </div>
