@@ -29,7 +29,6 @@ const ViewAccount = ({ account, hide, show }) => {
 
     useEffect(() => {
         dispatch(getTransactions());
-
         return () => {
             dispatch(reset());
         }
