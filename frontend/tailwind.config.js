@@ -10,7 +10,8 @@ module.exports = {
         carbontext: "#9CA3AF",
         carbonlight: "#323a42",
         carbonblue: "#393f47",
-        moneygreen: "#23d183"
+        moneygreen: "#23d183",
+        yellow: "#ffcb2b",
       },
       fontFamily: {
         source: ["'Source Sans Pro'", 'sans-serif']

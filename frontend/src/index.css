@@ -2,8 +2,96 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,700;0,900;1,400&family=Work+Sans:ital,wght@0,300;0,400;0,800;1,700&display=swap');
 @tailwind base;
 @tailwind components;
-@import url('./components/css/form.css');
-@import url('./components/css/card.css');
+
+@layer components {
+  .card {
+    @apply w-[350px] h-full max-h-[400px] bg-carbon p-5 shadow-md flex flex-col space-y-2 rounded-md;
+  } 
+
+  .card-title {
+      @apply text-4xl text-center text-cyan-400 font-extrabold font-source;
+  }
+
+  .card-btn {
+      @apply w-full rounded px-4 py-2 bg-cyan-500 font-extrabold text-white flex items-center justify-center font-source my-4;
+  }
+
+  .card-btn-close {
+      @apply bg-gray-600 hover:bg-gray-700 z-40 w-fit;
+  }
+
+  .card-label {
+      @apply w-fit p-2 text-sm bg-carbonlight
+      font-source font-huge uppercase rounded-md
+      hover:cursor-pointer;
+  }
+
+  .card-icon {
+      @apply text-3xl mt-[2px];
+  }
+
+  .card-more {
+      @apply tracking-widest font-source font-huge text-yellow text-center text-xs uppercase
+  }
+
+  .modal {
+    @apply fixed h-screen flex items-center justify-center bg-black/30 z-20 overflow-y-hidden;
+  }
+
+  .form-container {
+      @apply w-[330px] p-6 bg-carbon shadow-md;
+  }
+
+  .form {
+      @apply flex flex-col space-y-3 text-white;
+  }
+
+  .form-title {
+      @apply text-4xl text-cyan-400 font-extrabold font-source;
+  }
+
+  .form-label {
+      @apply font-bold text-base tracking-wide capitalize;
+  }
+
+  .form-input {
+      @apply bg-carbonlight w-full flex-1 px-4 py-2 rounded-md text-white font-bold tracking-wide;
+  }
+
+  .form-btn-group {
+      @apply w-full flex space-x-2 items-center;
+  }
+
+  .form-btn {
+      @apply rounded-md shadow-inner font-source text-lg
+      px-3 py-2 bg-carbonlight font-huge w-full;
+  }
+
+  .btn-cancel {
+      @apply text-white bg-red-500 hover:bg-red-600 font-extrabold;
+  }
+
+  .btn-submit {
+      @apply text-white bg-green-500
+      hover:bg-green-600 font-extrabold;
+  }
+
+  .error {
+      @apply text-[12px] text-yellow text-left font-bold
+      w-full capitalize py-1;
+  }
+  
+  @screen sm {
+    .card {
+        @apply w-[400px] max-h-[678px] ;
+    }
+
+    .form-container {
+      @apply w-[400px];
+    }
+  }
+}
+
 @tailwind utilities;
 
 
