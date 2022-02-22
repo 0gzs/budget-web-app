@@ -1,2 +1,1 @@
-web: npm start --prefix frontend
-worker: npm start
+web: npm start
