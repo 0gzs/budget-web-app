@@ -1,4 +1,4 @@
-import axios from "axios";
+import http from '../../http-common';
 
 const API_URL = '/api/v1/transactions';
 
@@ -10,7 +10,7 @@ const getTransactions = async token => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.get(API_URL, config);
+    const response = await http.get(API_URL, config);
 
     return response.data;
 }
@@ -22,7 +22,7 @@ const createTransaction = async (transactionData, token) =>  {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.post(API_URL, transactionData, config);
+    const response = await http.post(API_URL, transactionData, config);
 
     return response.data;
 }
@@ -34,7 +34,7 @@ const deleteTransaction = async (id, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.delete(`${API_URL}/${id}`, config);
+    const response = await http.delete(`${API_URL}/${id}`, config);
 
     return response.data;
 }
@@ -46,7 +46,7 @@ const deleteTransactions = async (accountId, token) => {
             Authorization: `Bearer ${token}`
         },
     }
-    const response = await axios.delete(`${API_URL}/${accountId}/multi`, config);
+    const response = await http.delete(`${API_URL}/${accountId}/multi`, config);
 
     return response.data;
 }

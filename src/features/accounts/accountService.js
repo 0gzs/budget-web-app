@@ -1,4 +1,4 @@
-import axios from "axios";
+import http from '../../http-common';
 
 const API_URL = '/api/v1/accounts';
 
@@ -10,7 +10,7 @@ const getAccounts = async token => {
             Authorization: `Bearer ${token}`
         }
     };
-    const response = await axios.get(API_URL, config);
+    const response = await http.get(API_URL, config);
     
     return response.data;
 }
@@ -22,7 +22,7 @@ const createAccount = async (accountData, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.post(API_URL, accountData, config);
+    const response = await http.post(API_URL, accountData, config);
 
     return response.data;
 }
@@ -36,7 +36,7 @@ const updateAccount = async (updateData, token) => {
         }
     }
     
-    const response = await axios.put(API_URL + `/${id}`, { [field]: data }, config);
+    const response = await http.put(API_URL + `/${id}`, { [field]: data }, config);
 
     const resposeData = {
         field,
@@ -53,7 +53,7 @@ const deleteAccount = async (id, token) => {
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await axios.delete(`${API_URL}/${id}`, config);
+    const response = await http.delete(`${API_URL}/${id}`, config);
     
     return response.data;
 }
@@ -65,7 +65,7 @@ const pushTransaction = async (id, transactionId, token) => {
             Authorization: `Bearer ${token}`
         }
     };
-    const response = await axios.put(`${API_URL}/${id}/add/transaction`, { transactionId: transactionId }, config);
+    const response = await http.put(`${API_URL}/${id}/add/transaction`, { transactionId: transactionId }, config);
 
     return response.data;
 }
@@ -77,7 +77,7 @@ const addAccountTransaction = async (transaction, token) => {
             Authorization: `Bearer ${token}`
         }
     };
-    const response = await axios.put(`${API_URL}/${transaction.account}/dec/balance`, { amount: transaction.amount }, config);
+    const response = await http.put(`${API_URL}/${transaction.account}/dec/balance`, { amount: transaction.amount }, config);
 
     return response.data;
 }
@@ -90,7 +90,7 @@ const removeAccountTransaction = async (transaction, token) => {
         }
     };
 
-    const response = await axios.put(`${API_URL}/${transaction.account}/inc/balance`, { amount: transaction.amount }, config);
+    const response = await HTMLOutputElement.put(`${API_URL}/${transaction.account}/inc/balance`, { amount: transaction.amount }, config);
 
     return response.data;
 }
