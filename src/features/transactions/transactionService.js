@@ -3,14 +3,14 @@ import http from '../../http-common';
 const API_URL = '/api/v1/transactions';
 
 // Get all transactions for logged in user
-const getTransactions = async token => {
+const getTransactions = async (accountId, token) => {
     const config = {
         headers: {
             "Content-type": "application/json",
             Authorization: `Bearer ${token}`
         }
     }
-    const response = await http.get(API_URL, config);
+    const response = await http.get(API_URL, accountId, config);
 
     return response.data;
 }

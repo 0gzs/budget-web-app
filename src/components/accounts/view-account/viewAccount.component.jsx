@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { createTransaction, deleteTransaction, deleteTransactions } from '../../../features/transactions/transactionsSlice';
+import { createTransaction, deleteTransaction, deleteTransactions, getTransactions } from '../../../features/transactions/transactionsSlice';
 import { addAccountTransaction, deleteAccount, pushTransaction, removeAccountTransaction, reset, updateAccount } from '../../../features/accounts/accountsSlice';
 import { addCategoryTransaction, removeCategoryTransaction } from '../../../features/categories/categoriesSlice';
 
@@ -28,6 +28,8 @@ const ViewAccount = ({ account, hide, show }) => {
     const { transactions } = useSelector(state => state.transactions);
 
     useEffect(() => {
+        dispatch(getTransactions());
+
         return () => {
             dispatch(reset());
         }
