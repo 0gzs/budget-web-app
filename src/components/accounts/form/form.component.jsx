@@ -57,7 +57,7 @@ const AccountForm = ({ hide, submit }) => {
                         </div>
                     </div>
                 </div>
-                <div className='flex space-x-6 justify-around'>
+                <div className='flex space-x-2 justify-around'>
                     <button onClick={hide} className='card-btn card-btn-close'>
                         close
                     </button>
