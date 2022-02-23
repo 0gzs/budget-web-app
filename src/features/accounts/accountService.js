@@ -90,7 +90,7 @@ const removeAccountTransaction = async (transaction, token) => {
         }
     };
 
-    const response = await HTMLOutputElement.put(`${API_URL}/${transaction.account}/inc/balance`, { amount: transaction.amount }, config);
+    const response = await http.put(`${API_URL}/${transaction.account}/inc/balance`, { amount: transaction.amount }, config);
 
     return response.data;
 }

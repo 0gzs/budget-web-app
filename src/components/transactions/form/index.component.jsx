@@ -20,13 +20,16 @@ const TransactionForm = ({ hide, submit}) => {
 
     })
 
-    const onChange = (e, field=null, value=null) => setTransaction(prevState => ({
+    const onChange = e => setTransaction(prevState => ({
         ...prevState,
-        [field || e.target.name]: value || e.target.value
+        [e.target.name]: e.target.value
     }))
     
-    function handleType(e) {
-        onChange(e, "type", !transaction.type)
+    const handleType = (e) => {
+        setTransaction(prevState => ({
+          ...prevState,
+          type: transaction.type === 0 ? 1 : 0
+        }));
         setTypeColor(typeColor === typeClasses.red ? typeClasses.green : typeClasses.red);
     }
 
@@ -75,7 +78,7 @@ const TransactionForm = ({ hide, submit}) => {
                                 value={transaction.amount}
                                 onChange={onChange} />
                         </div>
-                        <div className='form-group w-2/3'>
+                        {transaction.type === 0 && (<div className='form-group w-2/3'>
                             <label className='form-label'>Category</label>
                             <select 
                                 value={transaction.category}
@@ -91,14 +94,17 @@ const TransactionForm = ({ hide, submit}) => {
                                                 value={category._id}> {category.name} </option>
                                 })}
                             </select>
-                        </div>
+                        </div>)}
                     </div>
                 </div>
                 <div className='form-btn-group'>
                     <button onClick={hide}
                         className='card-btn card-btn-close'>close</button>
 
-                    <button onClick={() => submit(transaction)}
+                    <button onClick={() => {
+                        if (transaction.type === 1) transaction.category = "Income";
+                        submit(transaction)
+                    }}
                         className='card-btn'>submit</button>
                 </div>
             </div>

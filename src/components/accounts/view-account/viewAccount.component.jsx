@@ -70,7 +70,7 @@ const ViewAccount = ({ account, hide, show }) => {
             return setViewTransactionForm(false);
         };
 
-        if (account.balance < transaction.amount) {
+        if (account.balance < transaction.amount && transaction.type !== 1) {
             toast("❗️😰 Oops! Looks like that account might be a bit short.");
             return setViewTransactionForm(true);
         };
@@ -87,7 +87,8 @@ const ViewAccount = ({ account, hide, show }) => {
         const response = await dispatch(createTransaction(transactionData));
         const savedTransaction = response.payload;
         
-        await dispatch(addAccountTransaction(savedTransaction));
+        if (transactionData.type === 0) await dispatch(addAccountTransaction(savedTransaction))
+        else await dispatch(removeAccountTransaction(savedTransaction));
         
         await dispatch(pushTransaction({ id: account._id, transactionId: savedTransaction._id}));
 
@@ -107,10 +108,10 @@ const ViewAccount = ({ account, hide, show }) => {
     };
 
     const deleteOneAccount = async () => {
+        hide();
         await dispatch(deleteAccount(account._id))
         
         await dispatch(deleteTransactions(account._id));
-        hide();
     }
 
     return (
