@@ -32,7 +32,7 @@ const Categories = () => {
         return () => {
             dispatch(reset());
         }
-    }, [isError, dispatch, message]);
+    }, [isError, dispatch, message, categories]);
 
     useEffect(() => {
         if (accounts) calculateBalance();
