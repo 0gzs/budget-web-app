@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import categoryService from './categoryService';
 
 const initialState = {
-    categories: [],
+    categories: JSON.parse(localStorage.getItem("categories")) || null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -119,7 +119,10 @@ export const categoriesSlice = createSlice({
             .addCase(createCategory.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.categories.push(action.payload);
+                let categories = state.categories;
+                if (categories) categories.push(action.payload);
+                localStorage.setItem("categories", JSON.stringify(categories));
+                state.categories = [...categories];
             })
             .addCase(createCategory.rejected, (state, action) => {
                 state.isLoading = false;
@@ -133,7 +136,10 @@ export const categoriesSlice = createSlice({
             .addCase(getCategories.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.categories = action.payload;
+                let categories = state.categories;
+                if (!categories) categories = [...action.payload];
+                localStorage.setItem("categories", JSON.stringify(categories));
+                state.categories = [...categories];
             })
             .addCase(getCategories.rejected, (state, action) => {
                 state.isLoading = false;
@@ -147,7 +153,8 @@ export const categoriesSlice = createSlice({
             .addCase(updateCategory.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.categories = state.categories.map(category => {
+                let categories = state.categories;
+                if (categories) categories = categories.map(category => {
                     if (category._id === action.payload.category._id) {
                         const { field } = action.payload;
                         category[field] = action.payload.category[field];
@@ -155,6 +162,8 @@ export const categoriesSlice = createSlice({
                     }
                     return category;
                 });
+                localStorage.setItem("categories", JSON.stringify(categories));
+                state.categories = [...categories];
             })
             .addCase(updateCategory.rejected, (state, action) => {
                 state.isLoading = false;
@@ -168,12 +177,15 @@ export const categoriesSlice = createSlice({
             .addCase(addCategoryTransaction.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.categories = state.categories.map(category => {
+                let categories = state.categories; 
+                if (categories) categories = categories.map(category => {
                     if (category._id === action.payload._id) {
                         category.amount = action.payload.amount;
                     }
                     return category;
                 });
+                localStorage.setItem("categories", JSON.stringify(categories));
+                state.categories = [...categories];
             })
             .addCase(addCategoryTransaction.rejected, (state, action) => {
                 state.isLoading = false;
@@ -187,12 +199,15 @@ export const categoriesSlice = createSlice({
             .addCase(removeCategoryTransaction.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.categories = state.categories.map(category => {
+                let categories = state.categories; 
+                if (categories) categories = categories.map(category => {
                     if (category._id === action.payload._id) {
                         category.amount = action.payload.amount;
                     }
                     return category;
                 });
+                localStorage.setItem("categories", JSON.stringify(categories));
+                state.categories = [...categories];
             })
             .addCase(removeCategoryTransaction.rejected, (state, action) => {
                 state.isLoading = false;
@@ -206,7 +221,10 @@ export const categoriesSlice = createSlice({
             .addCase(deleteCategory.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.categories = state.categories.filter(account => account._id !== action.payload.id);
+                let categories = state.categories;
+                if (categories) categories = categories.filter(account => account._id !== action.payload.id);
+                localStorage.setItem("categories", JSON.stringify(categories));
+                state.categories = [...categories];
             })
             .addCase(deleteCategory.rejected, (state, action) => {
                 state.isLoading = false;

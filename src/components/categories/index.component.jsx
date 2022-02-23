@@ -27,7 +27,7 @@ const Categories = () => {
             toast.error(message);
         }
 
-        dispatch(getCategories());
+        if (!categories) dispatch(getCategories());
 
         return () => {
             dispatch(reset());
@@ -72,7 +72,7 @@ const Categories = () => {
             <div className='relative bg-carbonlight w-full max-h-[500px] p-3 grid grid-cols-2 gap-2 overflow-x-auto no-scrollbar'>
                 {categories && categories.length > 0 ? (
                     categories.map((category, i) => {
-                        if (updating === category._id && isLoading) return <CategoryLoader key={i} />
+                        if (updating === category._id) return <CategoryLoader key={i} />
                         return (
                             <Category  
                                 key={i}
