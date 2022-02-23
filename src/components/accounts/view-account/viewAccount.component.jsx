@@ -109,7 +109,8 @@ const ViewAccount = ({ account, hide, show }) => {
     const deleteOneAccount = async () => {
         await dispatch(deleteAccount(account._id))
         
-        await dispatch(deleteTransactions(account._id))
+        await dispatch(deleteTransactions(account._id));
+        hide();
     }
 
     return (

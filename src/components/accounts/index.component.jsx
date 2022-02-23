@@ -19,18 +19,19 @@ const Accounts = () => {
 
     const { accounts, isLoading, isError, message } = useSelector(state => state.accounts);
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (isError) {
             toast.error(message);
         }
 
-        dispatch(getAccounts());
+        if (!accounts) dispatch(getAccounts());
 
         return () => {
             dispatch(reset())
         }
+
     }, [isError, dispatch, message])
 
     useEffect(() => {
@@ -87,10 +88,10 @@ const Accounts = () => {
                 { accounts && accounts.length > 0 ? (
 
                     accounts.map((account, i) => {
-                        if (isLoading) return <AccountLoader key={i} />
                         return <Account key={i} account={account} />;
-                    })) : 
-
+                    })) : isLoading ? (
+                        <AccountLoader />
+                    ) :
                     <p className='italic text-gray-400 text-center font-mono'>No accounts yet</p>
                 }
             </div>

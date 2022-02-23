@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import accountsService from './accountService';
 
 const initialState = {
-    accounts: [],
+    accounts: JSON.parse(localStorage.getItem("accounts")) || null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -133,7 +133,10 @@ export const accountsSlice = createSlice({
             .addCase(createAccount.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.accounts.push(action.payload)
+                let accounts = state.accounts;
+                if (accounts) accounts.push(action.payload);
+                localStorage.setItem("accounts", JSON.stringify(accounts));
+                state.accounts = [...accounts];
             })
             .addCase(createAccount.rejected, (state, action) => {
                 state.isLoading = false;
@@ -146,7 +149,10 @@ export const accountsSlice = createSlice({
             .addCase(getAccounts.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.accounts = action.payload;
+                let accounts = state.accounts;
+                if (!accounts) accounts = [...action.payload];
+                localStorage.setItem("accounts", JSON.stringify(accounts))
+                state.accounts = [...accounts];
             })
             .addCase(getAccounts.rejected, (state, action) => {
                 state.isLoading = false;
@@ -160,7 +166,8 @@ export const accountsSlice = createSlice({
             .addCase(updateAccount.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.accounts = state.accounts.map(a => {
+                let accounts = state.accounts;
+                if (accounts) accounts = accounts.map(a => {
                     const { field, account } = action.payload;
                     
                     if (a._id === account._id) {
@@ -169,6 +176,8 @@ export const accountsSlice = createSlice({
                     }
                     return a;
                 });
+                localStorage.setItem("accounts", JSON.stringify(accounts));
+                state.accounts = [...accounts];
             })
             .addCase(updateAccount.rejected, (state, action) => {
                 state.isLoading = false;
@@ -182,13 +191,16 @@ export const accountsSlice = createSlice({
             .addCase(pushTransaction.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.accounts = state.accounts.map(account => {
+                let accounts = state.accounts;
+                if (accounts) accounts = accounts.map(account => {
                     if (account._id === action.payload._id) {
                         account.transactions.push(action.payload._id);
                         return account;
                     }
                     return account;
                 });
+                localStorage.setItem("accounts", JSON.stringify(accounts));
+                state.accounts = [...accounts];
             })
             .addCase(pushTransaction.rejected, (state, action) => {
                 state.isLoading = false;
@@ -202,13 +214,16 @@ export const accountsSlice = createSlice({
             .addCase(addAccountTransaction.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.accounts = state.accounts.map(account => {
+                let accounts = state.accounts;
+                if (accounts) accounts = accounts.map(account => {
                     if (account._id === action.payload._id) {
                         account.balance = action.payload.balance;
                         return account;
                     }
                     return account;
                 });
+                localStorage.setItem("accounts", JSON.stringify(accounts));
+                state.accounts = [...accounts];
             })
             .addCase(addAccountTransaction.rejected, (state, action) => {
                 state.isLoading = false;
@@ -222,13 +237,16 @@ export const accountsSlice = createSlice({
             .addCase(removeAccountTransaction.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.accounts = state.accounts.map(account => {
+                let accounts = state.accounts;
+                if (accounts) accounts = accounts.map(account => {
                     if (account._id === action.payload._id) {
                         account.balance = action.payload.balance;
                         return account;
                     }
                     return account;
                 });
+                localStorage.setItem("accounts", JSON.stringify(accounts));
+                state.accounts = [...accounts];
             })
             .addCase(removeAccountTransaction.rejected, (state, action) => {
                 state.isLoading = false;
@@ -242,7 +260,10 @@ export const accountsSlice = createSlice({
             .addCase(deleteAccount.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.accounts = state.accounts.filter(account => account._id !== action.payload.id);
+                let accounts = state.accounts;
+                if (accounts) accounts = accounts.filter(account => account._id !== action.payload.id);
+                localStorage.setItem("accounts", JSON.stringify(accounts))
+                state.accounts = [...accounts];
             })
             .addCase(deleteAccount.rejected, (state, action) => {
                 state.isLoading = false;
