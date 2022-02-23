@@ -28,11 +28,11 @@ const ViewAccount = ({ account, hide, show }) => {
     const { transactions } = useSelector(state => state.transactions);
 
     useEffect(() => {
-        dispatch(getTransactions());
+        if (!transactions) dispatch(getTransactions());
         return () => {
             dispatch(reset());
         }
-    }, [dispatch])
+    }, [dispatch, transactions])
 
     const update = () => {
         dispatch(updateAccount({

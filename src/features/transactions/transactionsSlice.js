@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import transactionService from './transactionService';
 
 const initialState = {
-    transactions: [],
+    transactions: JSON.parse(localStorage.getItem("transactions")) || null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -84,7 +84,10 @@ export const transactionSlice = createSlice({
             .addCase(createTransaction.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.transactions.push(action.payload);
+                let transactions = state.transactions;
+                if (transactions) transactions.push(action.payload);
+                localStorage.setItem("transactions", JSON.stringify(transactions));
+                state.transactions = [...transactions];
             })
             .addCase(createTransaction.rejected, (state, action) => {
                 state.isLoading = false;
@@ -98,7 +101,10 @@ export const transactionSlice = createSlice({
             .addCase(getTransactions.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.transactions = action.payload;
+                let transactions = state.transactions;
+                if (!transactions) transactions = [...action.payload];
+                localStorage.setItem("transactions", JSON.stringify(transactions));
+                state.transactions = [...transactions];
             })
             .addCase(getTransactions.rejected, (state, action) => {
                 state.isLoading = false;
@@ -112,7 +118,10 @@ export const transactionSlice = createSlice({
             .addCase(deleteTransaction.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.transactions = state.transactions.filter(transaction => transaction._id !== action.payload.id);
+                let transactions = state.transactions;
+                if (transactions) transactions = transactions.filter(transaction => transaction._id !== action.payload.id);
+                localStorage.setItem("transactions", JSON.stringify(transactions));
+                state.transactions = [...transactions];
             })
             .addCase(deleteTransaction.rejected, (state, action) => {
                 state.isLoading = false;
@@ -126,7 +135,10 @@ export const transactionSlice = createSlice({
             .addCase(deleteTransactions.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.transactions = state.transactions.filter(transaction => transaction.account !== action.payload.id);
+                let transactions = state.transactions;
+                if (transactions) transactions = transactions.filter(transaction => transaction.account !== action.payload.id);
+                localStorage.setItem("transactions", JSON.stringify(transactions));
+                state.transactions = [...transactions];
             })
             .addCase(deleteTransactions.rejected, (state, action) => {
                 state.isLoading = false;
